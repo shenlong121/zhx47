@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  top.zhx47.common.security.service.TokenService,\
+  top.zhx47.common.security.handler.GlobalExceptionHandler,\
+  top.zhx47.common.security.handler.AuthenticationEntryPointImpl,\
+  top.zhx47.common.security.handler.LogoutSuccessHandlerImpl,\
+  top.zhx47.common.security.filter.JwtAuthenticationTokenFilter

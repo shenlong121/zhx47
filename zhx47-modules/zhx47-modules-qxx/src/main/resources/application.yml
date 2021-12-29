@@ -1,0 +1,24 @@
+# Tomcat
+server:
+  port: 9201
+  servlet:
+    context-path: /qxx
+    session:
+      timeout: 84000
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: zhx47-qxx
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: @spring.profiles.actvie@
+
+mybatis-plus:
+  mapper-locations: classpath:./mapper/*.xml
+
+# 抢多多官方配置
+qdd:
+  # 抢多多地址发布页
+  getUrl: http://i.bokee.com/v1.php/blog/view/uname/zl123456987/bid/508008099
