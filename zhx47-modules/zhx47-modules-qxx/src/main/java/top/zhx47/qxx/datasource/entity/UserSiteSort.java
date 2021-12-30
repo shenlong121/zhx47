@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Orders extends BaseEntity {
+public class UserSiteSort extends BaseEntity {
     @TableId(value = "user_id", type = IdType.INPUT)
     @JSONField(serialize = false)
     private String userId;

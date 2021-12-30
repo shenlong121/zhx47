@@ -1,14 +1,14 @@
 package top.zhx47.qxx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.zhx47.qxx.datasource.entity.Notice;
+import top.zhx47.qxx.datasource.entity.SysNotice;
 
 /**
  * @Author: 张许
  * @Description:
  * @Date: 2021/6/12 0:17
  */
-public interface NoticeService extends IService<Notice> {
+public interface SysNoticeService extends IService<SysNotice> {
     /**
      * @Description:
      * @Author: 张许
@@ -16,5 +16,5 @@ public interface NoticeService extends IService<Notice> {
      * @Return top.zhx47.qxx.datasource.entity.Notice
      * @Exception
      */
-    public Notice getNotice();
+    public SysNotice getSysNotice();
 }

@@ -2,7 +2,7 @@ package top.zhx47.qxx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import top.zhx47.qxx.datasource.entity.Site;
+import top.zhx47.qxx.datasource.entity.SysSite;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import java.util.List;
  * @Date: 2021/6/12 0:11
  */
 @Mapper
-public interface SiteMapper extends BaseMapper<Site> {
-    List<Site> getSiteList();
+public interface SysSiteMapper extends BaseMapper<SysSite> {
+    List<SysSite> getSysSiteList();
 }

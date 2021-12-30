@@ -2,7 +2,7 @@ package top.zhx47.qxx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import top.zhx47.qxx.datasource.entity.Config;
+import top.zhx47.qxx.datasource.entity.SysConfig;
 
 /**
  * @Author: 张许
@@ -10,7 +10,7 @@ import top.zhx47.qxx.datasource.entity.Config;
  * @Date: 2021/6/10 22:02
  */
 @Mapper
-public interface ConfigMapper extends BaseMapper<Config> {
+public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
-    public Config getConfig();
+    public SysConfig getSysConfig();
 }

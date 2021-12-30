@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PlatformInfoBak extends BaseEntity {
+public class UserSiteBackup extends BaseEntity {
     @TableId(value = "`user_id`", type = IdType.INPUT)
     private Integer userId;
     @TableField(value = "`info`")

@@ -18,13 +18,13 @@ import top.zhx47.common.security.utils.SecurityUtils;
 import top.zhx47.qxx.api.datasource.dto.PageDTO;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 import top.zhx47.qxx.datasource.entity.ActivationCode;
-import top.zhx47.qxx.datasource.entity.Collect;
-import top.zhx47.qxx.datasource.entity.Site;
+import top.zhx47.qxx.datasource.entity.UserSiteCollect;
+import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.mapper.UserMapper;
 import top.zhx47.qxx.service.ActivationCodeService;
-import top.zhx47.qxx.service.CollectService;
-import top.zhx47.qxx.service.SiteService;
+import top.zhx47.qxx.service.UserSiteCollectService;
+import top.zhx47.qxx.service.SysSiteService;
 import top.zhx47.qxx.service.UserService;
 
 import javax.annotation.Resource;
@@ -43,11 +43,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private CollectService collectService;
+    private UserSiteCollectService userSiteCollectService;
     @Autowired
     private ActivationCodeService activationCodeService;
     @Autowired
-    private SiteService siteService;
+    private SysSiteService sysSiteService;
     @Autowired
     private TokenService tokenService;
     @Resource
@@ -90,25 +90,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public Collect addCollect(String siteId, String type) {
-        Collect collect = null;
+    public UserSiteCollect addCollect(String siteId, String type) {
+        UserSiteCollect userSiteCollect = null;
         // 1. 获取该平台的详细信息，验证siteId是否有效
-        Site site = siteService.getById(siteId);
-        Assert.notNull(site, "添加平台参数错误！！！");
+        SysSite sysSite = sysSiteService.getById(siteId);
+        Assert.notNull(sysSite, "添加平台参数错误！！！");
         // 2. 获取当前用户，当前平台的平台列表，用于控制是否创建分身
-        List<Collect> collectList = collectService.queryByGroupAndUserId(siteId, SecurityUtils.getUsername());
+        List<UserSiteCollect> userSiteCollectList = userSiteCollectService.queryByGroupAndUserId(siteId, SecurityUtils.getUsername());
         // 3. 添加平台到列表中
-        if (collectList.isEmpty()) {
+        if (userSiteCollectList.isEmpty()) {
             // 3.1 用户平台列表当前无该平台，无需已分身形式创建
-            collect = new Collect(SecurityUtils.getUsername(), siteId, siteId, "", null, null);
-            collectService.save(collect);
+            userSiteCollect = new UserSiteCollect(SecurityUtils.getUsername(), siteId, siteId, "", null, null);
+            userSiteCollectService.save(userSiteCollect);
         } else if ("copy".equals(type)) {
             // 3.2 以分身的形式创建平台
-            String collectId = getCollectId(collectList);
-            collect = new Collect(SecurityUtils.getUsername(), siteId + collectId, siteId, collectId, null, null);
-            collectService.save(collect);
+            String collectId = getCollectId(userSiteCollectList);
+            userSiteCollect = new UserSiteCollect(SecurityUtils.getUsername(), siteId + collectId, siteId, collectId, null, null);
+            userSiteCollectService.save(userSiteCollect);
         }
-        return collect;
+        return userSiteCollect;
     }
 
     @Override
@@ -179,16 +179,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 获取分身的index序号
      *
-     * @param collectList
+     * @param userSiteCollectList
      */
-    private String getCollectId(List<Collect> collectList) {
-        if (!"".equals(collectList.get(0).getIndex())) {
+    private String getCollectId(List<UserSiteCollect> userSiteCollectList) {
+        if (!"".equals(userSiteCollectList.get(0).getIndex())) {
             return "";
         }
-        if (collectList.size() == 1) {
+        if (userSiteCollectList.size() == 1) {
             return "1";
         }
-        List<Integer> collectIndexs = collectList.stream().map(o -> {
+        List<Integer> collectIndexs = userSiteCollectList.stream().map(o -> {
             if ("".equals(o.getIndex())) {
                 return 0;
             } else {

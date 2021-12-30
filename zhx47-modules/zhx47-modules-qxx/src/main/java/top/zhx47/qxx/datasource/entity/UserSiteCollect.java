@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Collect extends BaseEntity {
+public class UserSiteCollect extends BaseEntity {
     @JsonIgnore
     private String userId;
     @JSONField(name = "siteId")

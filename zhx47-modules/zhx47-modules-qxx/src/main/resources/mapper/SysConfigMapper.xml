@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.zhx47.qxx.mapper.NoticeMapper">
-    <select id="getNotice" resultType="top.zhx47.qxx.datasource.entity.Notice">
+<mapper namespace="top.zhx47.qxx.mapper.SysConfigMapper">
+    <select id="getSysConfig" resultType="top.zhx47.qxx.datasource.entity.SysConfig">
         SELECT *
-        FROM `notice`
+        FROM `sys_config`
         WHERE id = 1
     </select>
 </mapper>

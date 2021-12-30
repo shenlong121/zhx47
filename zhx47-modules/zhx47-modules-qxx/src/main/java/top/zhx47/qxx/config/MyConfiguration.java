@@ -65,12 +65,12 @@ public class MyConfiguration implements WebMvcConfigurer {
      * 跨域配置
      */
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsFilter corsFilter() throws IllegalAccessException {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
-        // TODO 设置访问源地址
-        config.addAllowedOrigin("你的前端地址");
+        // 设置访问源地址
+        config.addAllowedOrigin(this.getSystemInfoPO().getQxxFont());
         // 设置访问源请求头
         config.addAllowedHeader("*");
         // 设置访问源请求方法

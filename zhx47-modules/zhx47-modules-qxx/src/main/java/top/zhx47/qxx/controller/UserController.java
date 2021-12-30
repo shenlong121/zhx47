@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zhx47.common.core.utils.IdUtils;
 import top.zhx47.common.core.web.R;
-import top.zhx47.common.security.utils.SecurityUtils;
 import top.zhx47.qxx.api.controller.UserControllerApi;
 import top.zhx47.qxx.api.datasource.dto.*;
-import top.zhx47.qxx.datasource.entity.Collect;
-import top.zhx47.qxx.datasource.entity.Site;
+import top.zhx47.qxx.datasource.entity.UserSiteCollect;
+import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.service.*;
 
@@ -37,15 +36,15 @@ public class UserController implements UserControllerApi {
     @Autowired
     private UserService userService;
     @Autowired
-    private SiteService siteService;
+    private SysSiteService sysSiteService;
     @Autowired
-    private CollectService collectService;
+    private UserSiteCollectService userSiteCollectService;
     @Autowired
-    private OrdersService ordersService;
+    private UserSiteSortService userSiteSortService;
     @Autowired
     private PlatformInfoService platformInfoService;
     @Autowired
-    private PlatformInfoBakService platformInfoBakService;
+    private UserSiteBackupService userSiteBackupService;
 
     @Override
     public R getUser() throws Exception {
@@ -60,7 +59,7 @@ public class UserController implements UserControllerApi {
 
     @Override
     public R getSiteList() throws Exception {
-        List<Site> list = siteService.getSiteList();
+        List<SysSite> list = sysSiteService.getSysSiteList();
         return R.ok().putBodyByMap("siteList", list);
     }
 
@@ -76,7 +75,7 @@ public class UserController implements UserControllerApi {
     public R addCopyApp(@RequestBody JSONObject jsonObject) throws Exception {
         String group = jsonObject.getString("group");
         Assert.hasText(group, "参数错误！！");
-        Collect copy = userService.addCollect(group, "copy");
+        UserSiteCollect copy = userService.addCollect(group, "copy");
         Map<String, String> map = new HashMap<>();
         map.put("group", copy.getGroup());
         map.put("id", copy.getSiteId());
@@ -88,7 +87,7 @@ public class UserController implements UserControllerApi {
     public R deleteCollect(@RequestBody JSONObject jsonObject) throws Exception {
         String siteId = jsonObject.getString("siteId");
         Assert.hasText(siteId, "参数错误！！");
-        collectService.deleteCollect(siteId);
+        userSiteCollectService.deleteUserSiteCollect(siteId);
         return R.ok();
     }
 
@@ -114,25 +113,25 @@ public class UserController implements UserControllerApi {
         Assert.notNull(collectId, "参数错误！！");
         String siteName = jsonObject.getString("siteName");
         Assert.hasText(siteName, "参数错误！！");
-        this.collectService.updateCollect(collectId, siteName);
+        this.userSiteCollectService.updateUserSiteCollect(collectId, siteName);
         return R.ok();
     }
 
     @Override
     public R getCollectList() throws Exception {
-        List<Collect> result = collectService.getCollectList();
+        List<UserSiteCollect> result = userSiteCollectService.getUserSiteCollectList();
         return R.ok().putBodyByMap("collectList", result);
     }
 
     @Override
     public R getOrdersList() throws Exception {
-        String result = ordersService.getOrders();
-        return R.ok().putBodyByMap("orders", StringUtils.delimitedListToStringArray(result, ","));
+        String result = userSiteSortService.getUserSiteSort();
+        return R.ok().putBodyByMap("userSiteSort", StringUtils.delimitedListToStringArray(result, ","));
     }
 
     @Override
     public R saveOrdersList(@RequestBody SaveOrdersDTO saveOrdersDTO) throws Exception {
-        ordersService.saveOrders(saveOrdersDTO.getOrders());
+        userSiteSortService.saveUserSiteSort(saveOrdersDTO.getUserSiteSort());
         return R.ok();
     }
 
@@ -222,7 +221,7 @@ public class UserController implements UserControllerApi {
         // 抢多多官方这里加了日志记录，依旧不安全，只需要拦截前端请求，伪装成免费平台即可破解封号，垃圾设计
         boolean isVip = this.userService.getUser().getExpireTime().compareTo(LocalDate.now()) > 0;
         if (!isVip) {
-            boolean isFree = this.siteService.getById(siteDTO.getGroup()).getIsFree() == 1;
+            boolean isFree = this.sysSiteService.getById(siteDTO.getGroup()).getIsFree() == 1;
             if (!isFree) {
                 return R.ok("该平台仅支持会员使用，请充值会员再使用").putBodyByMap("enable", false);
             } else if (siteDTO.getGroup().equals(siteDTO.getSiteId())){
@@ -311,7 +310,7 @@ public class UserController implements UserControllerApi {
 
     @Override
     public R updateUserData(@RequestBody UserPlatformDTO userPlatformDTO) throws Exception {
-        this.platformInfoBakService.update(userPlatformDTO);
+        this.userSiteBackupService.update(userPlatformDTO);
         return R.ok();
     }
 
@@ -319,7 +318,7 @@ public class UserController implements UserControllerApi {
     public R getUserData(@RequestBody JSONObject jsonObject) throws Exception {
         String password = jsonObject.getString("password");
         Assert.hasText(password, "参数错误！！");
-        String data = this.platformInfoBakService.queryByUserId(password);
+        String data = this.userSiteBackupService.queryByUserId(password);
         if (StringUtils.hasText(data)) {
             return R.ok().putBodyByMap("data", data);
         }

@@ -2,14 +2,13 @@ package top.zhx47.qxx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import top.zhx47.qxx.datasource.entity.Notice;
+import top.zhx47.qxx.datasource.entity.UserSiteBackup;
 
 /**
  * @Author: 张许
  * @Description:
- * @Date: 2021/6/12 0:17
+ * @Date: 2021/9/22 20:25
  */
 @Mapper
-public interface NoticeMapper extends BaseMapper<Notice> {
-    public Notice getNotice();
+public interface UserSiteBackupMapper extends BaseMapper<UserSiteBackup> {
 }

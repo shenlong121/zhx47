@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class Site extends BaseEntity {
+public class SysSite extends BaseEntity {
     @JSONField(name = "siteName")
     private String siteName;
     @TableId(value = "site_id", type = IdType.INPUT)

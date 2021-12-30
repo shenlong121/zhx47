@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class Notice extends BaseEntity {
+public class SysNotice extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     @JSONField(name = "id", serialize = false)

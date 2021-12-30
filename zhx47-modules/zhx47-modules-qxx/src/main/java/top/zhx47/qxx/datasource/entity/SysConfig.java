@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class Config extends BaseEntity {
+public class SysConfig extends BaseEntity {
 
     @JSONField(serialize = false)
     @TableId(value = "id", type = IdType.AUTO)

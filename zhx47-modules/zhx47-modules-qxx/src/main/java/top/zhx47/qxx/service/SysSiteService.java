@@ -1,7 +1,7 @@
 package top.zhx47.qxx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.zhx47.qxx.datasource.entity.Site;
+import top.zhx47.qxx.datasource.entity.SysSite;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import java.util.List;
  * @Description:
  * @Date: 2021/6/12 0:10
  */
-public interface SiteService extends IService<Site> {
-    List<Site> getSiteList();
+public interface SysSiteService extends IService<SysSite> {
+    List<SysSite> getSysSiteList();
 }

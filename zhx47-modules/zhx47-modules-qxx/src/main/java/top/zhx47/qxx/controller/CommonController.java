@@ -13,10 +13,10 @@ import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.controller.CommonControllerApi;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 import top.zhx47.qxx.api.datasource.dto.VerificationCodeDTO;
-import top.zhx47.qxx.datasource.entity.Notice;
+import top.zhx47.qxx.datasource.entity.SysNotice;
 import top.zhx47.qxx.datasource.entity.User;
-import top.zhx47.qxx.service.ConfigService;
-import top.zhx47.qxx.service.NoticeService;
+import top.zhx47.qxx.service.SysConfigService;
+import top.zhx47.qxx.service.SysNoticeService;
 import top.zhx47.qxx.service.UserService;
 
 import javax.servlet.http.Cookie;
@@ -34,11 +34,11 @@ import java.util.Map;
 public class CommonController implements CommonControllerApi {
 
     @Autowired
-    private ConfigService configService;
+    private SysConfigService sysConfigService;
     @Autowired
     private UserService userService;
     @Autowired
-    private NoticeService noticeService;
+    private SysNoticeService sysNoticeService;
 
     /**
      * @Description: 获取版本信息
@@ -49,7 +49,7 @@ public class CommonController implements CommonControllerApi {
     @Override
     @RequestMapping(value = "/get_version", method = RequestMethod.POST)
     public R getVersion() throws Exception {
-        return R.ok().putBodyByMap("config", configService.getConfig());
+        return R.ok().putBodyByMap("config", sysConfigService.getSysConfig());
     }
 
     /**
@@ -128,11 +128,11 @@ public class CommonController implements CommonControllerApi {
 
     @RequestMapping(value = "/get_notice", method = RequestMethod.POST)
     public R getNotice(@RequestBody JSONObject jsonObject) throws Exception {
-        Notice notice = noticeService.getNotice();
+        SysNotice sysNotice = sysNoticeService.getSysNotice();
         if (!"login".equals(jsonObject.getString("name"))) {
-            notice.setContent("有问题请联系上级进行反馈！！");
+            sysNotice.setContent("有问题请联系上级进行反馈！！");
         }
-        return R.ok().putBodyByMap("notice", notice);
+        return R.ok().putBodyByMap("notice", sysNotice);
     }
 
     @Override

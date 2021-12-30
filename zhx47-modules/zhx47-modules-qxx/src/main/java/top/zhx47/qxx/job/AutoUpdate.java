@@ -15,15 +15,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import top.zhx47.common.core.utils.StringUtils;
-import top.zhx47.qxx.datasource.entity.Config;
-import top.zhx47.qxx.datasource.entity.Notice;
-import top.zhx47.qxx.datasource.entity.PlatformInfo;
-import top.zhx47.qxx.datasource.entity.Site;
+import top.zhx47.qxx.datasource.entity.SysConfig;
+import top.zhx47.qxx.datasource.entity.SysNotice;
+import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
-import top.zhx47.qxx.service.ConfigService;
-import top.zhx47.qxx.service.NoticeService;
+import top.zhx47.qxx.service.SysConfigService;
+import top.zhx47.qxx.service.SysNoticeService;
 import top.zhx47.qxx.service.PlatformInfoService;
-import top.zhx47.qxx.service.SiteService;
+import top.zhx47.qxx.service.SysSiteService;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedWriter;
@@ -47,11 +46,11 @@ public class AutoUpdate {
     @Value("${qdd.getUrl}")
     private String getUrl;
     @Autowired
-    private NoticeService noticeService;
+    private SysNoticeService sysNoticeService;
     @Autowired
-    private SiteService siteService;
+    private SysSiteService sysSiteService;
     @Autowired
-    private ConfigService configService;
+    private SysConfigService sysConfigService;
     @Autowired
     private PlatformInfoService platformInfoService;
     @Autowired
@@ -59,7 +58,7 @@ public class AutoUpdate {
 
     @Scheduled(cron = "0 0 3 * * ?")
     @Transactional(rollbackFor = Exception.class)
-//    @PostConstruct
+    @PostConstruct
     public void autoUpdate() throws IOException {
         String qdd_url = this.systemInfoPO.getQddUrl();
         Document document = Jsoup.connect(getUrl)
@@ -69,6 +68,7 @@ public class AutoUpdate {
         Matcher m = Pattern.compile(rgex).matcher(html);
         while (m.find() && !m.group(1).equals(qdd_url)) {
             qdd_url = m.group(1);
+            this.systemInfoPO.setQddUrl(qdd_url);
             this.platformInfoService.updateQDDURL(qdd_url);
         }
         String token = this.updateQXXCookie();
@@ -79,7 +79,7 @@ public class AutoUpdate {
             this.updateVersion(qdd_url, token);
             LOGGER.info("☝☝☝数据库更新成功☝☝☝");
         }
-        if (StringUtils.isNotEmpty(this.systemInfoPO.getFilePath())) {
+        if (StringUtils.isNotEmpty(this.systemInfoPO.getFilePath()) && StringUtils.isNotEmpty(this.systemInfoPO.getQxxApi())) {
             LOGGER.info("☟☟☟开始更新本地文件☟☟☟");
             this.updateFrontFile(qdd_url);
             LOGGER.info("☝☝☝本地文件更新成功☝☝☝");
@@ -123,8 +123,7 @@ public class AutoUpdate {
             execute = Jsoup.connect(qdd_url + href).ignoreContentType(true).method(Connection.Method.GET).execute();
             String content = execute.body();
             if (href.contains("index") && href.startsWith("/js")) {
-                // TODO
-                content = content.replaceAll(qdd_url, "你的后端接口地址")
+                content = content.replaceAll(qdd_url, this.systemInfoPO.getQxxApi())
                         .replaceAll("t\\.p\\+\"js/\"", "\"" + qdd_url + "/js/\"")
                         .replaceAll("\"css/\"", "\"/" + qdd_url.replace("https://", "") + "/css/\"")
                         .replaceAll("i\\.p\\+\"img/", "\"" + qdd_url + "/img/");
@@ -141,18 +140,18 @@ public class AutoUpdate {
      * @throws IOException
      */
     private void updateVersion(String qdd_url, String token) throws IOException {
-        LOGGER.info("☞更新表数据：Config");
+        LOGGER.info("☞更新表数据：sys_config");
         Connection.Response execute = Jsoup.connect(qdd_url + "/common/get_version")
                 .header("token", token)
                 .ignoreContentType(true)
                 .method(Connection.Method.POST)
                 .execute();
-        Config config = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("config", Config.class);
-        config.setId(1L);
-        config.setDomain("http://127.0.0.1");
-        config.setJiguang("Basic MjFkNTY3Y2U4NTFmNDUxMDIwNzRmZDRhOjQwOWMyN2RkMzQ1ZWQ3OGMzNmRjYjRmZQ==");
-        config.setVersionApk("2.2.40");
-        configService.saveOrUpdate(config);
+        SysConfig sysConfig = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("config", SysConfig.class);
+        sysConfig.setId(1L);
+        sysConfig.setDomain("http://127.0.0.1");
+        sysConfig.setJiguang("Basic MjFkNTY3Y2U4NTFmNDUxMDIwNzRmZDRhOjQwOWMyN2RkMzQ1ZWQ3OGMzNmRjYjRmZQ==");
+        sysConfig.setVersionApk("2.2.40");
+        sysConfigService.saveOrUpdate(sysConfig);
     }
 
     /**
@@ -163,15 +162,15 @@ public class AutoUpdate {
      * @throws IOException
      */
     private void updateSite(String qdd_url, String token) throws IOException {
-        LOGGER.info("☞更新表数据：Site");
+        LOGGER.info("☞更新表数据：sys_site");
         Connection.Response execute = Jsoup.connect(qdd_url + "/user/get_site_list")
                 .header("token", token)
                 .ignoreContentType(true)
                 .method(Connection.Method.POST)
                 .execute();
-        List<Site> siteList = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("siteList", new TypeReference<List<Site>>() {
+        List<SysSite> sysSiteList = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("siteList", new TypeReference<List<SysSite>>() {
         });
-        siteService.saveOrUpdateBatch(siteList);
+        sysSiteService.saveOrUpdateBatch(sysSiteList);
     }
 
     /**
@@ -181,17 +180,17 @@ public class AutoUpdate {
      * @param token
      */
     private void updateNotice(String qdd_url, String token) throws IOException {
-        LOGGER.info("☞更新表数据：Notice");
+        LOGGER.info("☞更新表数据：sys_notice");
         Connection.Response execute = Jsoup.connect(qdd_url + "/common/get_notice")
                 .header("token", token)
                 .data("name", "login")
                 .ignoreContentType(true)
                 .method(Connection.Method.POST)
                 .execute();
-        Notice notice = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("notice", Notice.class);
-        notice.setTitle(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "自动更新！！！");
-        notice.setId(1L);
-        this.noticeService.saveOrUpdate(notice);
+        SysNotice sysNotice = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("notice", SysNotice.class);
+        sysNotice.setTitle(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "自动更新！！！");
+        sysNotice.setId(1L);
+        this.sysNoticeService.saveOrUpdate(sysNotice);
     }
 
     /**
