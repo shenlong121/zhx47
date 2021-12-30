@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserSiteCollect extends BaseEntity {
     @JsonIgnore
+    @JSONField(serialize = false)
     private String userId;
     @JSONField(name = "siteId")
     private String siteId;
@@ -29,7 +30,7 @@ public class UserSiteCollect extends BaseEntity {
     @TableField(value = "`index`")
     private String index;
     @JSONField(name = "siteName")
-    private Object siteName;
+    private String siteName;
     @JSONField(name = "collectId")
     @TableId(value = "collect_id", type = IdType.AUTO)
     private Integer collectId;

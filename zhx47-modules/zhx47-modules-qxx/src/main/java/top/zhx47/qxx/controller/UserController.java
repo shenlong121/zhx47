@@ -126,12 +126,12 @@ public class UserController implements UserControllerApi {
     @Override
     public R getOrdersList() throws Exception {
         String result = userSiteSortService.getUserSiteSort();
-        return R.ok().putBodyByMap("userSiteSort", StringUtils.delimitedListToStringArray(result, ","));
+        return R.ok().putBodyByMap("orders", StringUtils.delimitedListToStringArray(result, ","));
     }
 
     @Override
     public R saveOrdersList(@RequestBody SaveOrdersDTO saveOrdersDTO) throws Exception {
-        userSiteSortService.saveUserSiteSort(saveOrdersDTO.getUserSiteSort());
+        userSiteSortService.saveUserSiteSort(saveOrdersDTO.getOrders());
         return R.ok();
     }
 
