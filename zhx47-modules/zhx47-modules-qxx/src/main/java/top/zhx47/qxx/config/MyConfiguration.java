@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 import top.zhx47.qxx.service.PlatformInfoService;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,13 @@ import java.util.List;
 @Configuration
 public class MyConfiguration implements WebMvcConfigurer {
 
+    private final PlatformInfoService platformInfoService;
+
     @Autowired
-    private PlatformInfoService platformInfoService;
+    public MyConfiguration(PlatformInfoService platformInfoService) {
+        Assert.notNull(platformInfoService, "platformInfoService must not be null!");
+        this.platformInfoService = platformInfoService;
+    }
 
     /**
      * 配置消息转换器
@@ -50,10 +56,10 @@ public class MyConfiguration implements WebMvcConfigurer {
         //全局时间配置
 //        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         fastJsonConfig.setDateFormat("yyyy-MM-dd");
-        fastJsonConfig.setCharset(Charset.forName("UTF-8"));
+        fastJsonConfig.setCharset(StandardCharsets.UTF_8);
         //处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<>();
-        fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+//        fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         //在convert中添加配置信息.
         fastConverter.setSupportedMediaTypes(fastMediaTypes);
         fastConverter.setFastJsonConfig(fastJsonConfig);

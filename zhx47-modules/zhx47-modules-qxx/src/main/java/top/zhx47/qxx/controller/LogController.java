@@ -16,7 +16,7 @@ import top.zhx47.qxx.api.controller.LogControllerApi;
 public class LogController implements LogControllerApi {
     @Override
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public R add() throws Exception {
+    public R add() {
         // 垃圾抢多多，偷偷保存用户数据
         return R.ok();
     }

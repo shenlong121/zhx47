@@ -1,9 +1,9 @@
 package top.zhx47.qxx.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,40 +40,19 @@ public class CommonController implements CommonControllerApi {
     @Autowired
     private SysNoticeService sysNoticeService;
 
-    /**
-     * @Description: 获取版本信息
-     * @Author: 张许
-     * @Date: 2021/6/10 22:15
-     * @Return
-     */
     @Override
     @RequestMapping(value = "/get_version", method = RequestMethod.POST)
-    public R getVersion() throws Exception {
+    public R getVersion() {
         return R.ok().putBodyByMap("config", sysConfigService.getSysConfig());
     }
 
-    /**
-     * @Description: 验证网络
-     * @Author: 张许
-     * @Date: 2021/6/11 0:03
-     * @Return top.zhx47.common.utils.R
-     * @Exception
-     */
     @RequestMapping(value = {"/get_reply", "/get_reply_recent"}, method = RequestMethod.POST)
-    public R reply() throws Exception {
+    public R reply() {
         return R.ok();
     }
 
-    /**
-     * @param verificationCodeDTO
-     * @Description: 获取验证码
-     * @Author: 张许
-     * @Date: 2021/6/10 23:47
-     * @Return top.zhx47.common.utils.R
-     * @Exception
-     */
     @RequestMapping(value = "/get_code", method = RequestMethod.POST)
-    public R getCode(@RequestBody VerificationCodeDTO verificationCodeDTO) throws Exception {
+    public R getCode(@RequestBody VerificationCodeDTO verificationCodeDTO) {
         // 数据校验
         if (StringUtils.isEmpty(verificationCodeDTO.getOrigin()) || StringUtils.isEmpty(verificationCodeDTO.getPhone())) {
             return R.error(BusinessConstants.INVALIDDATA, "非法数据");
@@ -91,27 +70,11 @@ public class CommonController implements CommonControllerApi {
         return R.error(BusinessConstants.REGISTERED, "请检查手机号");
     }
 
-    /**
-     * @param verificationCodeDTO
-     * @Description:重置密码接口
-     * @Author: 张许
-     * @Date: 2021/6/12 1:22
-     * @Return top.zhx47.common.utils.R
-     * @Exception
-     */
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
-    public R reset(@RequestBody VerificationCodeDTO verificationCodeDTO) throws Exception {
+    public R reset() {
         return R.error(BusinessConstants.INVALIDDATA, "重置密码请向上级申请！");
     }
 
-    /**
-     * @param registerOrResetDTO
-     * @Description: 用户注册
-     * @Author: 张许
-     * @Date: 2021/6/11 1:12
-     * @Return top.zhx47.common.utils.R
-     * @Exception
-     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @Transactional
     public R register(@RequestBody UserDTO registerOrResetDTO) throws Exception {
@@ -127,7 +90,7 @@ public class CommonController implements CommonControllerApi {
     }
 
     @RequestMapping(value = "/get_notice", method = RequestMethod.POST)
-    public R getNotice(@RequestBody JSONObject jsonObject) throws Exception {
+    public R getNotice(@RequestBody JSONObject jsonObject) {
         SysNotice sysNotice = sysNoticeService.getSysNotice();
         if (!"login".equals(jsonObject.getString("name"))) {
             sysNotice.setContent("有问题请联系上级进行反馈！！");
@@ -137,7 +100,7 @@ public class CommonController implements CommonControllerApi {
 
     @Override
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public R login(@RequestBody UserDTO userDTO, HttpServletResponse response) throws Exception {
+    public R login(@RequestBody UserDTO userDTO, HttpServletResponse response) {
         // 生成令牌
         String token = userService.login(userDTO.getPhone(), userDTO.getPassword());
         response.setContentType("application/json;charset=utf-8");

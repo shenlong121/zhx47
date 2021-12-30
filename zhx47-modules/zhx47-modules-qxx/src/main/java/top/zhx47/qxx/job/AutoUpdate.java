@@ -71,7 +71,7 @@ public class AutoUpdate {
             this.systemInfoPO.setQddUrl(qdd_url);
             this.platformInfoService.updateQDDURL(qdd_url);
         }
-        String token = this.updateQXXCookie();
+        String token = this.getQDDToken();
         if (StringUtils.isNotEmpty(token)) {
             LOGGER.info("☟☟☟开始更新数据库☟☟☟");
             this.updateNotice(qdd_url, token);
@@ -87,7 +87,19 @@ public class AutoUpdate {
     }
 
     @Scheduled(cron = "0 0 0/12 * * ?")
-    public String updateQXXCookie() throws IOException {
+    public void updateQXXCookie() throws IOException {
+        String token = this.getQDDToken();
+        if (StringUtils.isNotBlank(token)) {
+            platformInfoService.updateQDDCookie(token);
+        }
+    }
+
+    /**
+     * 获取抢多多Token
+     *
+     * @return 抢多多Token
+     */
+    private String getQDDToken() throws IOException {
         String qddPhone = this.systemInfoPO.getQddPhone();
         String qddPassword = this.systemInfoPO.getQddPassword();
         String qddUrl = this.systemInfoPO.getQddUrl();
@@ -100,9 +112,7 @@ public class AutoUpdate {
                     .ignoreContentType(true)
                     .method(Connection.Method.POST)
                     .execute();
-            String token = execute.cookie("token");
-            platformInfoService.updateQDDCookie(token);
-            return token;
+            return execute.cookie("token");
         }
         return null;
     }
@@ -110,8 +120,7 @@ public class AutoUpdate {
     /**
      * 更新前端文件
      *
-     * @param qdd_url
-     * @throws IOException
+     * @param qdd_url 抢多多URL
      */
     private void updateFrontFile(String qdd_url) throws IOException {
         Connection.Response execute = Jsoup.connect(qdd_url + "/index.html?r=" + new Random().nextDouble()).method(Connection.Method.GET).execute();
@@ -135,9 +144,8 @@ public class AutoUpdate {
     /**
      * 更新版本信息
      *
-     * @param qdd_url
-     * @param token
-     * @throws IOException
+     * @param qdd_url 抢多多URL
+     * @param token 抢多多Token
      */
     private void updateVersion(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_config");
@@ -157,9 +165,8 @@ public class AutoUpdate {
     /**
      * 更新平台列表
      *
-     * @param qdd_url
-     * @param token
-     * @throws IOException
+     * @param qdd_url 抢多多URL
+     * @param token 抢多多Token
      */
     private void updateSite(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_site");
@@ -176,8 +183,8 @@ public class AutoUpdate {
     /**
      * 更新公告
      *
-     * @param qdd_url
-     * @param token
+     * @param qdd_url 抢多多URL
+     * @param token 抢多多Token
      */
     private void updateNotice(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_notice");
@@ -194,23 +201,11 @@ public class AutoUpdate {
     }
 
     /**
-     * 获取官方Token
+     * 写入文件
      *
-     * @param qdd_url      网址
-     * @param qdd_phone    手机号
-     * @param qdd_password 密码
-     * @return
+     * @param filepath 文件路径
+     * @param content 写入内容
      */
-    private String getToken(String qdd_url, String qdd_phone, String qdd_password) throws IOException {
-        Connection.Response execute = Jsoup.connect(qdd_url + "/common/login")
-                .data("phone", qdd_phone)
-                .data("password", qdd_password)
-                .ignoreContentType(true)
-                .method(Connection.Method.POST)
-                .execute();
-        return execute.cookie("token");
-    }
-
     private static void bufferedWriterFile(String filepath, String content) throws IOException {
         LOGGER.info("☞写入文件：{}", filepath);
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath))) {

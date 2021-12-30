@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisService redisService;
 
     @Override
-    public Boolean registerUser(UserDTO registerOrResetDTO) throws Exception {
+    public Boolean registerUser(UserDTO registerOrResetDTO) {
         // 获取邀请人，邀请人为空视为无效
         Long parentId = ShareCodeUtils.codeToId(registerOrResetDTO.getRecomender());
         if (this.getById(parentId) == null) {
@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String login(String phone, String password) {
         // 用户验证
-        Authentication authentication = null;
+        Authentication authentication;
         try {
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = authenticationManager
@@ -178,8 +178,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 获取分身的index序号
-     *
-     * @param userSiteCollectList
      */
     private String getCollectId(List<UserSiteCollect> userSiteCollectList) {
         if (!"".equals(userSiteCollectList.get(0).getIndex())) {

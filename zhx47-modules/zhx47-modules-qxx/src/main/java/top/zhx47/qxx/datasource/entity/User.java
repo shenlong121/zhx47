@@ -4,7 +4,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -14,8 +16,10 @@ import java.time.LocalDate;
  * @Description: 用户表
  * @Date: 2021/6/10 21:19
  */
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)

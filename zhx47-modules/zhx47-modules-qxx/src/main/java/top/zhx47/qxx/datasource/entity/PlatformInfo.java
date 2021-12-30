@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@EqualsAndHashCode(callSuper = true)
 public class PlatformInfo extends BaseEntity {
     @TableId(value = "`key`", type = IdType.INPUT)
     private String key;

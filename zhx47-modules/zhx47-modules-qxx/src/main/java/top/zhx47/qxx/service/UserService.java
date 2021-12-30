@@ -14,15 +14,11 @@ import java.util.List;
  * @Date: 2021/6/10 22:36
  */
 public interface UserService extends IService<User> {
+
     /**
-     * @param registerOrResetDTO
-     * @Description: 用户注册
-     * @Author: 张许
-     * @Date: 2021/6/11 0:45
-     * @Return void
-     * @Exception
+     * 用户注册
      */
-    public Boolean registerUser(UserDTO registerOrResetDTO) throws Exception;
+    Boolean registerUser(UserDTO registerOrResetDTO) throws Exception;
 
     User getUser();
 

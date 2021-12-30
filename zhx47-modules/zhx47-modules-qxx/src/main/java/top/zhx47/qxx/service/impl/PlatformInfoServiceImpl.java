@@ -1,7 +1,6 @@
 package top.zhx47.qxx.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import top.zhx47.qxx.datasource.entity.PlatformInfo;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
@@ -9,7 +8,6 @@ import top.zhx47.qxx.mapper.PlatformInfoMapper;
 import top.zhx47.qxx.service.PlatformInfoService;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -23,6 +21,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, PlatformInfo> implements PlatformInfoService {
+
+    private static final Pattern humpPattern = Pattern.compile("[A-Z]");
+
     @Override
     public void updateQDDCookie(String token) {
         this.baseMapper.updateQDDCookie(token);
@@ -59,7 +60,6 @@ public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, Pla
         this.baseMapper.updateQDDURL(url);
     }
 
-    private static Pattern humpPattern = Pattern.compile("[A-Z]");
     public static String humpToLine(String str) {
         Matcher matcher = humpPattern.matcher(str);
         StringBuffer sb = new StringBuffer();

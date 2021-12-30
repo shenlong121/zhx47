@@ -10,11 +10,9 @@ import top.zhx47.qxx.datasource.entity.SysNotice;
  */
 public interface SysNoticeService extends IService<SysNotice> {
     /**
-     * @Description:
-     * @Author: 张许
-     * @Date: 2021/6/12 1:51
-     * @Return top.zhx47.qxx.datasource.entity.Notice
-     * @Exception
+     * 获取抢夕夕公告
+     *
+     * @return 抢夕夕公告
      */
-    public SysNotice getSysNotice();
+    SysNotice getSysNotice();
 }

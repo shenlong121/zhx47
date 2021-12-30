@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,9 +15,10 @@ import lombok.NoArgsConstructor;
  * @Description: 用户平台表
  * @Date: 2021/6/10 21:24
  */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@EqualsAndHashCode(callSuper = true)
 public class UserSiteCollect extends BaseEntity {
     @JsonIgnore
     @JSONField(serialize = false)

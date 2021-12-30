@@ -61,9 +61,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     /**
      * 解决 无法直接注入 AuthenticationManager
-     *
-     * @return
-     * @throws Exception
      */
     @Bean
     @Override
@@ -77,7 +74,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/common/get_version", "/common/get_notice", "/common/register", "/log/add", "/common/get_reply", "/common/get_code", "/common/reset");
     }
 

@@ -12,5 +12,5 @@ import top.zhx47.qxx.datasource.entity.SysConfig;
 @Mapper
 public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
-    public SysConfig getSysConfig();
+    SysConfig getSysConfig();
 }

@@ -11,5 +11,5 @@ import top.zhx47.qxx.datasource.entity.SysNotice;
  */
 @Mapper
 public interface SysNoticeMapper extends BaseMapper<SysNotice> {
-    public SysNotice getSysNotice();
+    SysNotice getSysNotice();
 }

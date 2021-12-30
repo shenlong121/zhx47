@@ -18,6 +18,7 @@ import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.service.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,24 +48,24 @@ public class UserController implements UserControllerApi {
     private UserSiteBackupService userSiteBackupService;
 
     @Override
-    public R getUser() throws Exception {
+    public R getUser() {
         User user = userService.getUser();
         return R.ok().putBodyByMap("user", user);
     }
 
     @Override
-    public R getUserDetail() throws Exception {
+    public R getUserDetail() {
         return this.getUser();
     }
 
     @Override
-    public R getSiteList() throws Exception {
+    public R getSiteList() {
         List<SysSite> list = sysSiteService.getSysSiteList();
         return R.ok().putBodyByMap("siteList", list);
     }
 
     @Override
-    public R addCollect(@RequestBody JSONObject jsonObject) throws Exception {
+    public R addCollect(@RequestBody JSONObject jsonObject) {
         String siteId = jsonObject.getString("siteId");
         Assert.hasText(siteId, "参数错误！！");
         userService.addCollect(siteId, "add");
@@ -72,7 +73,7 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R addCopyApp(@RequestBody JSONObject jsonObject) throws Exception {
+    public R addCopyApp(@RequestBody JSONObject jsonObject) {
         String group = jsonObject.getString("group");
         Assert.hasText(group, "参数错误！！");
         UserSiteCollect copy = userService.addCollect(group, "copy");
@@ -84,7 +85,7 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R deleteCollect(@RequestBody JSONObject jsonObject) throws Exception {
+    public R deleteCollect(@RequestBody JSONObject jsonObject) {
         String siteId = jsonObject.getString("siteId");
         Assert.hasText(siteId, "参数错误！！");
         userSiteCollectService.deleteUserSiteCollect(siteId);
@@ -92,7 +93,7 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R getSiteConfig(@RequestBody JSONObject jsonObject) throws Exception {
+    public R getSiteConfig(@RequestBody JSONObject jsonObject) throws IOException {
         String siteId = jsonObject.getString("siteId");
         Assert.hasText(siteId, "参数错误！！");
         String qxx_cookie = this.platformInfoService.getById("qdd_cookie").getValue();
@@ -108,7 +109,7 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R updateCollect(@RequestBody JSONObject jsonObject) throws Exception {
+    public R updateCollect(@RequestBody JSONObject jsonObject) {
         Integer collectId = jsonObject.getInteger("collectId");
         Assert.notNull(collectId, "参数错误！！");
         String siteName = jsonObject.getString("siteName");
@@ -118,49 +119,49 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R getCollectList() throws Exception {
+    public R getCollectList() {
         List<UserSiteCollect> result = userSiteCollectService.getUserSiteCollectList();
         return R.ok().putBodyByMap("collectList", result);
     }
 
     @Override
-    public R getOrdersList() throws Exception {
+    public R getOrdersList() {
         String result = userSiteSortService.getUserSiteSort();
         return R.ok().putBodyByMap("orders", StringUtils.delimitedListToStringArray(result, ","));
     }
 
     @Override
-    public R saveOrdersList(@RequestBody SaveOrdersDTO saveOrdersDTO) throws Exception {
+    public R saveOrdersList(@RequestBody SaveOrdersDTO saveOrdersDTO) {
         userSiteSortService.saveUserSiteSort(saveOrdersDTO.getOrders());
         return R.ok();
     }
 
     @Override
-    public R getAccountList(@RequestBody RecordDTO recordDTO) throws Exception {
+    public R getAccountList(@RequestBody RecordDTO recordDTO) {
         // TODO
         return R.ok().putBodyByMap("records", new ArrayList<>());
     }
 
     @Override
-    public R getProductList() throws Exception {
+    public R getProductList() {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R getFriendNum() throws Exception {
+    public R getFriendNum() {
         Long count = userService.countFriend();
         return R.ok().putBodyByMap("count", count);
     }
 
     @Override
-    public R getBonusListByPage(@RequestBody PageDTO pageDTO) throws Exception {
+    public R getBonusListByPage(@RequestBody PageDTO pageDTO) {
         // TODO
         return R.ok().putBodyByMap("bonusList", new ArrayList<>());
     }
 
     @Override
-    public R getFriendListByPage(@RequestBody PageDTO pageDTO) throws Exception {
+    public R getFriendListByPage(@RequestBody PageDTO pageDTO) {
         List<User> list = this.userService.getFriendListByPage(pageDTO);
         List<Map<String, String>> result = list.stream().map(o -> {
             Map<String, String> map = new HashMap<>();
@@ -172,19 +173,19 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R getCodeNum() throws Exception {
+    public R getCodeNum() {
         // TODO
         return R.ok().putBodyByMap("count", 100);
     }
 
     @Override
-    public R getPointList() throws Exception {
+    public R getPointList() {
         // TODO
         return R.ok().putBodyByMap("pointList", new ArrayList<>());
     }
 
     @Override
-    public R payCode(@RequestBody JSONObject jsonObject) throws Exception {
+    public R payCode(@RequestBody JSONObject jsonObject) {
         String code = jsonObject.getString("code");
         Assert.hasText(code, "请输入卡密");
         boolean result = userService.payCode(code);
@@ -195,29 +196,29 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R getSets() throws Exception {
+    public R getSets() {
         return R.ok().putBodyByMap("set", this.platformInfoService.getSets());
     }
 
     @Override
-    public R getBonusInfo() throws Exception {
+    public R getBonusInfo() {
         return R.ok().putBodyByMap("bonusInfo", this.platformInfoService.getBonusInfo());
     }
 
     @Override
-    public R getWithdrawList() throws Exception {
+    public R getWithdrawList() {
         // TODO
         return R.ok().putBodyByMap("withdrawList", new ArrayList<>());
     }
 
     @Override
-    public R getInviteList() throws Exception {
+    public R getInviteList() {
         // TODO
         return R.ok().putBodyByMap("inviteList", new ArrayList<>());
     }
 
     @Override
-    public R canRun(@RequestBody SiteDTO siteDTO) throws Exception {
+    public R canRun(@RequestBody SiteDTO siteDTO) {
         // 抢多多官方这里加了日志记录，依旧不安全，只需要拦截前端请求，伪装成免费平台即可破解封号，垃圾设计
         boolean isVip = this.userService.getUser().getExpireTime().compareTo(LocalDate.now()) > 0;
         if (!isVip) {
@@ -232,90 +233,78 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R getSuccessOrder(@RequestBody SiteDTO siteDTO) throws Exception {
+    public R getSuccessOrder(@RequestBody SiteDTO siteDTO) {
         // TODO
         return R.ok().putBodyByMap("records", new ArrayList<>());
     }
 
     @Override
-    public R addAdvice() throws Exception {
+    public R addAdvice() {
         return R.ok();
     }
 
     @Override
-    public R getUserPlatphoms() throws Exception {
+    public R getUserPlatphoms() {
         // TODO
         return R.ok().putBodyByMap("platforms", new ArrayList<>());
     }
 
-    /**
-     * 记账功能  添加平台
-     *
-     * @return
-     * @throws Exception
-     */
     @Override
-    public R addUserPlatphom(@RequestBody SiteDTO siteDTO) throws Exception {
-        // TODO
-        return R.ok();
-    }
-
-    /**
-     * 记账功能  添加平台
-     *
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public R deleteUserPlatphom(@RequestBody SiteDTO siteDTO) throws Exception {
+    public R addUserPlatphom(@RequestBody SiteDTO siteDTO) {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R copyAccountList(@RequestBody JSONObject jsonObject) throws Exception {
+    public R deleteUserPlatphom(@RequestBody SiteDTO siteDTO) {
+        // TODO
+        return R.ok();
+    }
+
+    @Override
+    public R copyAccountList(@RequestBody JSONObject jsonObject) {
         // TODO
         return R.ok().putBodyByMap("guid", IdUtils.fastUUID());
     }
 
     @Override
-    public R addAccount(@RequestBody AccountDTO accountDTO) throws Exception {
+    public R addAccount(@RequestBody AccountDTO accountDTO) {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R deleteAccount(@RequestBody AccountDTO accountDTO) throws Exception {
+    public R deleteAccount(@RequestBody AccountDTO accountDTO) {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R getMemoList(@RequestBody RecordDTO recordDTO) throws Exception {
+    public R getMemoList(@RequestBody RecordDTO recordDTO) {
         // TODO
         return R.ok().putBodyByMap("records", new ArrayList<>());
     }
 
     @Override
-    public R addMemo(@RequestBody AccountDTO recordDTO) throws Exception {
+    public R addMemo(@RequestBody AccountDTO recordDTO) {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R updateMemoReturn(@RequestBody AccountDTO recordDTO) throws Exception {
+    public R updateMemoReturn(@RequestBody AccountDTO recordDTO) {
         // TODO
         return R.ok();
     }
 
     @Override
-    public R updateUserData(@RequestBody UserPlatformDTO userPlatformDTO) throws Exception {
+    public R updateUserData(@RequestBody UserPlatformDTO userPlatformDTO) {
         this.userSiteBackupService.update(userPlatformDTO);
         return R.ok();
     }
 
     @Override
-    public R getUserData(@RequestBody JSONObject jsonObject) throws Exception {
+    public R getUserData(@RequestBody JSONObject jsonObject) {
         String password = jsonObject.getString("password");
         Assert.hasText(password, "参数错误！！");
         String data = this.userSiteBackupService.queryByUserId(password);

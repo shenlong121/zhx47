@@ -21,19 +21,14 @@ public interface CommonControllerApi {
      * @Description: 获取版本信息
      * @Author: 张许
      * @Date: 2021/6/10 22:15
-     * @Return
      */
     @RequestMapping(value = "/get_version", method = RequestMethod.POST)
-    public R getVersion() throws Exception;
+    R getVersion() throws Exception;
 
     /**
      * 登录
-     *
-     * @param userDTO
-     * @return
-     * @throws Exception
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public R login(@RequestBody UserDTO userDTO, HttpServletResponse response) throws Exception;
+    R login(@RequestBody UserDTO userDTO, HttpServletResponse response) throws Exception;
 
 }

@@ -8,15 +8,15 @@
     </update>
 
     <select id="getBonusInfo" resultType="java.util.Map">
-        select `key`, CONVERT(value USING utf8) value from qxx.platform_info where type = 'commission'
+        select `key`, CONVERT(value USING utf8) as value from qxx.platform_info where type = 'commission'
     </select>
 
     <select id="getSets" resultType="java.util.Map">
-        select `key`, CONVERT(value USING utf8) value from qxx.platform_info where type = 'price'
+        select `key`, CONVERT(value USING utf8) as value from qxx.platform_info where type = 'price'
     </select>
 
     <select id="getSystemInfo" resultType="java.util.Map">
-        select p.`key`, CONVERT(p.value USING utf8) value from qxx.platform_info p where p.type = 'system';
+        select p.`key`, CONVERT(p.value USING utf8) as value from qxx.platform_info p where p.type = 'system';
     </select>
 
     <update id="updateQDDURL">

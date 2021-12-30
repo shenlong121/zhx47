@@ -9,5 +9,5 @@ import top.zhx47.qxx.datasource.entity.SysConfig;
  * @Date: 2021/6/10 22:04
  */
 public interface SysConfigService extends IService<SysConfig> {
-    public SysConfig getSysConfig();
+    SysConfig getSysConfig();
 }

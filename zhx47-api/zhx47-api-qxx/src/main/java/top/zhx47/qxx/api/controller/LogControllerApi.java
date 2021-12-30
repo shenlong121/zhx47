@@ -17,8 +17,7 @@ public interface LogControllerApi {
      * @Description: 添加日志
      * @Author: 张许
      * @Date: 2021/6/10 22:15
-     * @Return
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public R add() throws Exception;
+    R add();
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,9 +14,10 @@ import lombok.NoArgsConstructor;
  * @Description: 用户平台排序
  * @Date: 2021/6/10 21:26
  */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@EqualsAndHashCode(callSuper = true)
 public class UserSiteSort extends BaseEntity {
     @TableId(value = "user_id", type = IdType.INPUT)
     @JSONField(serialize = false)

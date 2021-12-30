@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import top.zhx47.qxx.datasource.entity.PlatformInfo;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 
-import java.util.List;
 import java.util.Map;
 
 /**

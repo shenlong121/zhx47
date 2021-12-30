@@ -10,17 +10,13 @@ import java.util.Map;
  *
  * @author zhx47
  */
-public class R<T> extends HashMap<String, Object> {
+public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
     public R() {
         put("code", "200");
         put("body", new HashMap<>());
         put("desc", "");
-    }
-
-    public static R error() {
-        return error(Constants.FAIL, "未知异常，请联系管理员");
     }
 
     public static R error(String desc) {
@@ -51,12 +47,6 @@ public class R<T> extends HashMap<String, Object> {
     public static R ok(String desc) {
         R r = new R();
         r.put("desc", desc);
-        return r;
-    }
-
-    public static R ok(Map<String, Object> map) {
-        R r = new R();
-        r.putAll(map);
         return r;
     }
 
