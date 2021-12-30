@@ -14,6 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class SaveOrdersDTO {
-    @JSONField(name = "userSiteSort")
-    private List<String> userSiteSort;
+    @JSONField(name = "orders")
+    private List<String> orders;
 }
