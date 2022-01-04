@@ -25,6 +25,22 @@ public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, Pla
 
     private static final Pattern humpPattern = Pattern.compile("[A-Z]");
 
+    /**
+     * 下划线转驼峰
+     *
+     * @param str 需要转换的字符串
+     * @return 处理好的驼峰字符串
+     */
+    public static String humpToLine(String str) {
+        Matcher matcher = humpPattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     @Override
     public void updateQDDCookie(String token) {
         this.baseMapper.updateQDDCookie(token);
@@ -73,21 +89,5 @@ public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, Pla
             declaredField.set(alipayInfoPO, alipayInfoMap.get(this.humpToLine(declaredField.getName())));
         }
         return alipayInfoPO;
-    }
-
-    /**
-     * 下划线转驼峰
-     *
-     * @param str 需要转换的字符串
-     * @return 处理好的驼峰字符串
-     */
-    public static String humpToLine(String str) {
-        Matcher matcher = humpPattern.matcher(str);
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
-        }
-        matcher.appendTail(sb);
-        return sb.toString();
     }
 }

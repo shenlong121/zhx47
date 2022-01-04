@@ -13,9 +13,9 @@ import top.zhx47.common.core.utils.IdUtils;
 import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.controller.UserControllerApi;
 import top.zhx47.qxx.api.datasource.dto.*;
-import top.zhx47.qxx.datasource.entity.UserSiteCollect;
 import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
+import top.zhx47.qxx.datasource.entity.UserSiteCollect;
 import top.zhx47.qxx.service.*;
 
 import java.io.IOException;
@@ -165,7 +165,7 @@ public class UserController implements UserControllerApi {
         List<User> list = this.userService.getFriendListByPage(pageDTO);
         List<Map<String, String>> result = list.stream().map(o -> {
             Map<String, String> map = new HashMap<>();
-            map.put("phone", o.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+            map.put("phone", o.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             map.put("addTime", o.getCreateTime().toLocalDate().toString());
             return map;
         }).collect(Collectors.toList());
@@ -225,7 +225,7 @@ public class UserController implements UserControllerApi {
             boolean isFree = this.sysSiteService.getById(siteDTO.getGroup()).getIsFree() == 1;
             if (!isFree) {
                 return R.ok("该平台仅支持会员使用，请充值会员再使用").putBodyByMap("enable", false);
-            } else if (siteDTO.getGroup().equals(siteDTO.getSiteId())){
+            } else if (siteDTO.getGroup().equals(siteDTO.getSiteId())) {
                 return R.ok("分身功能仅支持会员使用，请充值会员再使用").putBodyByMap("enable", false);
             }
         }

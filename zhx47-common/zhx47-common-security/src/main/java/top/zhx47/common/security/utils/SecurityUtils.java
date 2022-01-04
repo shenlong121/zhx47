@@ -7,8 +7,6 @@ import top.zhx47.common.core.constant.HttpStatus;
 import top.zhx47.common.core.exception.CustomException;
 import top.zhx47.common.security.datasource.dto.UserDetailsDTO;
 
-import java.io.Serializable;
-
 /**
  * 安全服务工具类
  *

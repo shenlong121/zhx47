@@ -19,9 +19,9 @@ import top.zhx47.qxx.datasource.entity.SysConfig;
 import top.zhx47.qxx.datasource.entity.SysNotice;
 import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
+import top.zhx47.qxx.service.PlatformInfoService;
 import top.zhx47.qxx.service.SysConfigService;
 import top.zhx47.qxx.service.SysNoticeService;
-import top.zhx47.qxx.service.PlatformInfoService;
 import top.zhx47.qxx.service.SysSiteService;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +30,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +58,19 @@ public class AutoUpdate {
     private PlatformInfoService platformInfoService;
     @Autowired
     private SystemInfoPO systemInfoPO;
+
+    /**
+     * 写入文件
+     *
+     * @param filepath 文件路径
+     * @param content  写入内容
+     */
+    private static void bufferedWriterFile(String filepath, String content) throws IOException {
+        LOGGER.info("☞写入文件：{}", filepath);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath))) {
+            bufferedWriter.write(content);
+        }
+    }
 
     @Scheduled(cron = "0 0 3 * * ?")
     @Transactional(rollbackFor = Exception.class)
@@ -145,7 +161,7 @@ public class AutoUpdate {
      * 更新版本信息
      *
      * @param qdd_url 抢多多URL
-     * @param token 抢多多Token
+     * @param token   抢多多Token
      */
     private void updateVersion(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_config");
@@ -166,7 +182,7 @@ public class AutoUpdate {
      * 更新平台列表
      *
      * @param qdd_url 抢多多URL
-     * @param token 抢多多Token
+     * @param token   抢多多Token
      */
     private void updateSite(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_site");
@@ -184,7 +200,7 @@ public class AutoUpdate {
      * 更新公告
      *
      * @param qdd_url 抢多多URL
-     * @param token 抢多多Token
+     * @param token   抢多多Token
      */
     private void updateNotice(String qdd_url, String token) throws IOException {
         LOGGER.info("☞更新表数据：sys_notice");
@@ -198,18 +214,5 @@ public class AutoUpdate {
         sysNotice.setTitle(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "自动更新！！！");
         sysNotice.setId(1L);
         this.sysNoticeService.saveOrUpdate(sysNotice);
-    }
-
-    /**
-     * 写入文件
-     *
-     * @param filepath 文件路径
-     * @param content 写入内容
-     */
-    private static void bufferedWriterFile(String filepath, String content) throws IOException {
-        LOGGER.info("☞写入文件：{}", filepath);
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath))) {
-            bufferedWriter.write(content);
-        }
     }
 }

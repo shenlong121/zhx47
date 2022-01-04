@@ -28,7 +28,9 @@ import top.zhx47.qxx.service.UserService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author: 张许
@@ -47,6 +49,8 @@ public class CommonController implements CommonControllerApi {
     private UserService userService;
     @Autowired
     private SysNoticeService sysNoticeService;
+    @Autowired
+    private AlipayInfoPO alipayInfoPO;
 
     @Override
     @RequestMapping(value = "/get_version", method = RequestMethod.POST)
@@ -122,9 +126,6 @@ public class CommonController implements CommonControllerApi {
         result.put("token", token);
         return R.ok(200, "登录成功").putBodyByObject(result);
     }
-
-    @Autowired
-    private AlipayInfoPO alipayInfoPO;
 
     @Override
     public void notify(HttpServletRequest request, HttpServletResponse response) {

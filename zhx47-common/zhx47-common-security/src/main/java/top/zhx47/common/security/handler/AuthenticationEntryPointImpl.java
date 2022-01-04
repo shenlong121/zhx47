@@ -5,10 +5,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import top.zhx47.common.core.constant.BusinessConstants;
-import top.zhx47.common.core.constant.HttpStatus;
 import top.zhx47.common.core.utils.ServletUtils;
-import top.zhx47.common.core.utils.StringUtils;
-import top.zhx47.common.core.web.R;
 import top.zhx47.common.core.web.R;
 
 import javax.servlet.http.HttpServletRequest;

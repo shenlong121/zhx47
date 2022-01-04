@@ -8,8 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
-    * 支付订单
-    */
+ * 支付订单
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 public class SysOrder extends BaseEntity {
 
     /**
-    * 系统订单
-    */
+     * 系统订单
+     */
     @TableId(value = "trade_no", type = IdType.AUTO)
     private Long tradeNo;
 
     /**
-    * 是否付款 -- [0：未付款  1：已付款]
-    */
+     * 是否付款 -- [0：未付款  1：已付款]
+     */
     private Boolean isPay;
 }

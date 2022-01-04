@@ -10,10 +10,7 @@ import com.alipay.api.response.AlipayTradePrecreateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author: 张许
@@ -23,11 +20,10 @@ import java.util.Set;
 public class AlipayUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlipayUtils.class);
+    private static AlipayClient alipayClient;
 
     private AlipayUtils() {
     }
-
-    private static AlipayClient alipayClient;
 
     /**
      * 初始化一个AlipayClient

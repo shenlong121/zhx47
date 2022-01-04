@@ -11,7 +11,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-#    active: @spring.profiles.actvie@
+    #    active: @spring.profiles.actvie@
     active: dev
 
 mybatis-plus:

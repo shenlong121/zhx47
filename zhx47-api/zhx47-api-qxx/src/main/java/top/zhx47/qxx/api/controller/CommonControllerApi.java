@@ -1,6 +1,5 @@
 package top.zhx47.qxx.api.controller;
 
-import com.alipay.api.AlipayApiException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
