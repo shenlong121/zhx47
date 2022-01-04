@@ -3,6 +3,7 @@ package top.zhx47.qxx.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.zhx47.qxx.datasource.entity.PlatformInfo;
+import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 import top.zhx47.qxx.mapper.PlatformInfoMapper;
 import top.zhx47.qxx.service.PlatformInfoService;
@@ -60,6 +61,26 @@ public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, Pla
         this.baseMapper.updateQDDURL(url);
     }
 
+    @Override
+    public AlipayInfoPO getAlipayInfoPO() throws IllegalAccessException {
+        List<Map<String, String>> alipayInfoList = this.baseMapper.getAlipayInfo();
+        Map<String, String> alipayInfoMap = alipayInfoList.stream().collect(Collectors.toMap(map -> map.get("key"), item -> item.get("value")));
+        AlipayInfoPO alipayInfoPO = new AlipayInfoPO();
+        Class<AlipayInfoPO> alipayInfoPOClass = AlipayInfoPO.class;
+        Field[] declaredFields = alipayInfoPOClass.getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            declaredField.setAccessible(true);
+            declaredField.set(alipayInfoPO, alipayInfoMap.get(this.humpToLine(declaredField.getName())));
+        }
+        return alipayInfoPO;
+    }
+
+    /**
+     * 下划线转驼峰
+     *
+     * @param str 需要转换的字符串
+     * @return 处理好的驼峰字符串
+     */
     public static String humpToLine(String str) {
         Matcher matcher = humpPattern.matcher(str);
         StringBuffer sb = new StringBuffer();

@@ -113,7 +113,7 @@ public interface UserControllerApi {
     R getFriendListByPage(@RequestBody PageDTO pageDTO) throws Exception;
 
     /**
-     * // TODO 不知道干嘛的 用户拥有卡密数量
+     * 用户拥有卡密数量
      */
     @RequestMapping(value = "/get_code_num", method = RequestMethod.POST)
     R getCodeNum() throws Exception;

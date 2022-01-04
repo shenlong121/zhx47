@@ -24,4 +24,8 @@
         set `value` = #{url}
         where `key` = 'qdd_url'
     </update>
+
+    <select id="getAlipayInfo" resultType="java.util.Map">
+        select p.`key`, CONVERT(p.value USING utf8) as value from qxx.platform_info p where p.type = 'alipay';
+    </select>
 </mapper>

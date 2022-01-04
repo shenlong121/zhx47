@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.zhx47.common.core.utils.AlipayUtils;
+import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 import top.zhx47.qxx.service.PlatformInfoService;
 
@@ -58,10 +59,6 @@ public class MyConfiguration implements WebMvcConfigurer {
         fastJsonConfig.setDateFormat("yyyy-MM-dd");
         fastJsonConfig.setCharset(StandardCharsets.UTF_8);
         //处理中文乱码问题
-        List<MediaType> fastMediaTypes = new ArrayList<>();
-//        fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        //在convert中添加配置信息.
-        fastConverter.setSupportedMediaTypes(fastMediaTypes);
         fastConverter.setFastJsonConfig(fastJsonConfig);
         converters.add(0, fastConverter);
         return new HttpMessageConverters(converters);
@@ -92,5 +89,16 @@ public class MyConfiguration implements WebMvcConfigurer {
     @Bean
     public SystemInfoPO getSystemInfoPO() throws IllegalAccessException {
         return this.platformInfoService.getSystemInfoPO();
+    }
+
+    /**
+     * 从数据库中获取系统信息
+     */
+    @Bean
+    public AlipayInfoPO getAlipayInfoPO() throws IllegalAccessException {
+        AlipayInfoPO alipayInfoPO = this.platformInfoService.getAlipayInfoPO();
+        // 顺便初始化一下支付工具类
+        AlipayUtils.getAlipayClientInstance(alipayInfoPO.getGateway(), alipayInfoPO.getAppId(), alipayInfoPO.getAppPrivateKey(), alipayInfoPO.getAlipayPublicKey());
+        return alipayInfoPO;
     }
 }

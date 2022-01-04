@@ -2,6 +2,7 @@ package top.zhx47.qxx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.zhx47.qxx.datasource.entity.PlatformInfo;
+import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 
 import java.util.Map;
@@ -21,4 +22,6 @@ public interface PlatformInfoService extends IService<PlatformInfo> {
     SystemInfoPO getSystemInfoPO() throws IllegalAccessException;
 
     void updateQDDURL(String url);
+
+    AlipayInfoPO getAlipayInfoPO() throws IllegalAccessException;
 }

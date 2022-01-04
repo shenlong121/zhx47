@@ -1,7 +1,10 @@
 package top.zhx47.qxx.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,20 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import top.zhx47.common.core.constant.BusinessConstants;
+import top.zhx47.common.core.utils.AlipayUtils;
+import top.zhx47.common.core.utils.ServletUtils;
 import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.controller.CommonControllerApi;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 import top.zhx47.qxx.api.datasource.dto.VerificationCodeDTO;
 import top.zhx47.qxx.datasource.entity.SysNotice;
 import top.zhx47.qxx.datasource.entity.User;
+import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.service.SysConfigService;
 import top.zhx47.qxx.service.SysNoticeService;
 import top.zhx47.qxx.service.UserService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: 张许
@@ -32,6 +38,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/common")
 public class CommonController implements CommonControllerApi {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonController.class);
 
     @Autowired
     private SysConfigService sysConfigService;
@@ -107,7 +115,7 @@ public class CommonController implements CommonControllerApi {
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(84000);
-        cookie.setPath("/qxx");
+        cookie.setPath("/");
         response.addCookie(cookie);
         Map<String, Object> result = new HashMap<>();
         result.put("userType", 1);
@@ -115,4 +123,26 @@ public class CommonController implements CommonControllerApi {
         return R.ok(200, "登录成功").putBodyByObject(result);
     }
 
+    @Autowired
+    private AlipayInfoPO alipayInfoPO;
+
+    @Override
+    public void notify(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
+        Map<String, String> param = new HashMap<>();
+        for (Map.Entry<String, String[]> entry : entries) {
+            param.put(entry.getKey(), String.join("", entry.getValue()));
+        }
+        try {
+            boolean alipayRSACheckedV2 = AlipayUtils.signVerification(param, this.alipayInfoPO.getAlipayPublicKey());
+            if (!alipayRSACheckedV2) {
+                ServletUtils.renderText(response, "fail");
+            }
+            //  TODO 其他业务校验
+        } catch (AlipayApiException e) {
+            ServletUtils.renderText(response, "fail");
+        }
+        ServletUtils.renderText(response, "success");
+    }
 }

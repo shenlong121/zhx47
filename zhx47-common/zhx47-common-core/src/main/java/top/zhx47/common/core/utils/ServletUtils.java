@@ -177,4 +177,14 @@ public class ServletUtils {
         }
     }
 
+    public static void renderText(HttpServletResponse response, String content) {
+        try {
+            response.setStatus(200);
+            response.setContentType("text/html");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

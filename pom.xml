@@ -37,6 +37,8 @@
         <poi.version>4.1.2</poi.version>
         <common-pool.version>2.10.0</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
+        <alipay.version>4.22.0.ALL</alipay.version>
+        <log4j.version>2.17.0</log4j.version>
     </properties>
 
     <modules>
@@ -105,6 +107,12 @@
                 <version>${commons-collections.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java</artifactId>
+                <version>${alipay.version}</version>
+            </dependency>
+
             <!-- JSON 解析器和生成器 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -117,6 +125,18 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${common-pool.version}</version>
+            </dependency>
+
+            <!-- log4j -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
 
             <!-- 核心模块 -->
@@ -136,7 +156,7 @@
             <!-- 日志记录 -->
             <dependency>
                 <groupId>top.zhx47</groupId>
-                <artifactId>zhx47-common-log</artifactId>
+                <artifactId>zhx47-api-qxx</artifactId>
                 <version>${zhx47.version}</version>
             </dependency>
 

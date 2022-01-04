@@ -1,5 +1,6 @@
 package top.zhx47.qxx.api.controller;
 
+import com.alipay.api.AlipayApiException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -31,4 +33,10 @@ public interface CommonControllerApi {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     R login(@RequestBody UserDTO userDTO, HttpServletResponse response) throws Exception;
 
+
+    /**
+     * 支付宝回调通知支付结果
+     */
+    @RequestMapping(value = "/notify", method = RequestMethod.POST)
+    void notify(HttpServletRequest request, HttpServletResponse response);
 }

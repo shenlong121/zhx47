@@ -75,7 +75,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/common/get_version", "/common/get_notice", "/common/register", "/log/add", "/common/get_reply", "/common/get_code", "/common/reset");
+        web.ignoring().antMatchers("/common/get_version", "/common/get_notice", "/common/register", "/log/add", "/common/get_reply", "/common/get_code", "/common/reset", "/common/notify");
     }
 
     @Override
@@ -84,8 +84,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-//                .antMatchers("/common/login").anonymous()
                 .antMatchers("/common/login").permitAll()
                 .anyRequest().authenticated()
                 .and()

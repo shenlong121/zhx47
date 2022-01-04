@@ -23,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-//        User user = baseMapper.loadUserByPhone(phone);
         User user = userService.getUserByPhone(phone);
         if (user == null) {
             throw new UsernameNotFoundException("用户名不存在!");

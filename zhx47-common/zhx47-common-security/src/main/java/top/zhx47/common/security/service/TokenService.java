@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import top.zhx47.common.core.constant.Constants;
 import top.zhx47.common.core.utils.StringUtils;
-import top.zhx47.common.redis.service.RedisCache;
 import top.zhx47.common.redis.service.RedisService;
 import top.zhx47.common.security.datasource.dto.UserDetailsDTO;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +26,13 @@ import java.util.concurrent.TimeUnit;
 public class TokenService {
     protected static final long MILLIS_SECOND = 1000;
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
-    private static final Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
 
-    // 令牌自定义标识
     @Value("${token.header}")
     private String header;
-    // 令牌秘钥
     @Value("${token.secret}")
     private String secret;
-    // 令牌有效期（默认30分钟）
     @Value("${token.expireTime}")
-    private int expireTime;
-    @Autowired
-    private RedisCache redisCache;
+    private Integer expireTime;
     @Autowired
     private RedisService redisService;
 
@@ -193,6 +187,16 @@ public class TokenService {
         String token = request.getHeader(header);
         if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
             token = token.replace(Constants.TOKEN_PREFIX, "");
+        }
+        if (StringUtils.isEmpty(token)) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (header.equals(cookie.getName())) {
+                        token = cookie.getValue();
+                    }
+                }
+            }
         }
         return token;
     }
