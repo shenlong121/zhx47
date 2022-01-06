@@ -4,6 +4,8 @@
 
 完成度20 ~ 30%，在做了，在做了。
 
+![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220106164113.png)
+
 [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=zhx47&bg_color=30,e96443,904e95&title_color=fff&text_color=fff)](https://github.com/anuraghazra/github-readme-stats)
 
 ## 基础工具

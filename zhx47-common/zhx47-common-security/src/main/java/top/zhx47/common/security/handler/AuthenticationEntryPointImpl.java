@@ -23,8 +23,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     private static final long serialVersionUID = -8970718410437077606L;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
-            throws IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         ServletUtils.renderString(response, JSON.toJSONString(R.error(BusinessConstants.NO_LOGIN, "凭证过期，请重新登录")));
     }
 }

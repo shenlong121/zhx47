@@ -121,12 +121,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 用户验证
         Authentication authentication;
         try {
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(phone, password));
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new UserPasswordNotMatchException();
+            return "";
         }
         UserDetailsDTO loginUser = (UserDetailsDTO) authentication.getPrincipal();
         // 生成token

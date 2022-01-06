@@ -6,14 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zhx47.common.core.constant.BusinessConstants;
 import top.zhx47.common.core.constant.Constants;
-import top.zhx47.common.core.exception.user.UserPasswordTooEasyException;
 import top.zhx47.common.core.utils.AlipayUtils;
 import top.zhx47.common.core.utils.ServletUtils;
 import top.zhx47.common.core.web.R;
@@ -87,15 +85,12 @@ public class CommonController implements CommonControllerApi {
     @Override
     public R reset(@RequestBody UserDTO registerOrResetDTO) {
         User user = this.userService.loadUserByPhone(registerOrResetDTO.getPhone());
-        if (user != null && !registerOrResetDTO.getPassword().matches(Constants.PASSWORD_REGEX)) {
-            String encode = this.passwordEncoder.encode("123456789");
-            if (encode.equals(user.getPassword())) {
-                LOGGER.info("用户： {} 更改密码", registerOrResetDTO.getPhone());
-                String newPasswd = this.passwordEncoder.encode(registerOrResetDTO.getPassword());
-                user.setPassword(newPasswd);
-                this.userService.updateById(user);
-                return R.ok(200, "密码重置成功");
-            }
+        if (user != null && registerOrResetDTO.getPassword().matches(Constants.PASSWORD_REGEX) && passwordEncoder.matches("123456789", user.getPassword())) {
+            LOGGER.info("用户：{} 更改密码", registerOrResetDTO.getPhone());
+            String newPasswd = this.passwordEncoder.encode(registerOrResetDTO.getPassword());
+            user.setPassword(newPasswd);
+            this.userService.updateById(user);
+            return R.ok(200, "密码重置成功");
         }
         return R.error(BusinessConstants.INVALIDDATA, "重置密码请向上级申请！");
     }
@@ -129,9 +124,13 @@ public class CommonController implements CommonControllerApi {
     public R login(@RequestBody UserDTO userDTO, HttpServletResponse response) {
         // 生成令牌
         String token = userService.login(userDTO.getPhone(), userDTO.getPassword());
+        if (StringUtils.isEmpty(token)) {
+            return R.ok("501", "手机号或者密码错误");
+        }
         // 之前没考虑，数据库中已经存在简单密码的情况，为了区分提示，所以校验放到后面了，简单密码需要去修改密码
         if (!userDTO.getPassword().matches(Constants.PASSWORD_REGEX)) {
-            throw new UserPasswordTooEasyException();
+            LOGGER.info("用户：{} 登录被拦截，密码过于简单", userDTO.getPhone());
+            return R.ok("501", "密码太简单被拦截了，麻烦联系管理员申请修改密码");
         }
         response.setContentType("application/json;charset=utf-8");
         Cookie cookie = new Cookie("token", token);
