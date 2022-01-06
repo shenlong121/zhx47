@@ -73,7 +73,7 @@ public class MyConfiguration implements WebMvcConfigurer {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
         // 设置访问源地址
-        config.addAllowedOrigin(this.getSystemInfoPO().getQxxFont());
+        config.addAllowedOrigin(this.getSystemInfoPO().getQxxFront());
         // 设置访问源请求头
         config.addAllowedHeader("*");
         // 设置访问源请求方法

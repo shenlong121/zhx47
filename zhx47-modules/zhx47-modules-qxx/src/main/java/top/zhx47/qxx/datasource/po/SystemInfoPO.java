@@ -14,6 +14,6 @@ public class SystemInfoPO {
     private String qddPhone;
     private String qddCookie;
     private String qddPassword;
-    private String qxxFont;
+    private String qxxFront;
     private String qxxApi;
 }
