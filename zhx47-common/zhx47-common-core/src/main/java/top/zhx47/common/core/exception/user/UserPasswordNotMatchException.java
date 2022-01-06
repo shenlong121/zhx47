@@ -1,7 +1,7 @@
 package top.zhx47.common.core.exception.user;
 
 /**
- * 用户密码不正确或不符合规范异常类
+ * 用户密码不正确异常类
  *
  * @author zhx47
  */

@@ -130,4 +130,9 @@ public class Constants {
      * 令牌前缀
      */
     public static final String TOKEN_PREFIX = "Bearer ";
+
+    /**
+     * 密码规则 --> 长度：6-20， 同时包含数字和字母
+     */
+    public static final String PASSWORD_REGEX = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$";
 }
