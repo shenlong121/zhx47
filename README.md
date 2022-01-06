@@ -40,7 +40,7 @@
 
 如果有的话，恭喜你，可以将相关配置信息录入数据库中，即可食用
 
-![](https://cdn.jsdelivr.net/gh/zhx47/Pic-Go/master/20220106155329.png?token=AOTNIO72GRYHRNZVGAS7S3DB22QDM)
+![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220106155329.png?token=AOTNIO72GRYHRNZVGAS7S3DB22QDM)
 
 关于应用密钥和支付宝公钥可以参考[官方文档](https://opendocs.alipay.com/mini/miniu/keytool/create) 进行配置
 
