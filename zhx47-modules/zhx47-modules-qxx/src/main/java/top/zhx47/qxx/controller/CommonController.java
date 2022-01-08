@@ -19,10 +19,12 @@ import top.zhx47.qxx.api.controller.CommonControllerApi;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 import top.zhx47.qxx.api.datasource.dto.VerificationCodeDTO;
 import top.zhx47.qxx.datasource.entity.SysNotice;
+import top.zhx47.qxx.datasource.entity.SysOrder;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.service.SysConfigService;
 import top.zhx47.qxx.service.SysNoticeService;
+import top.zhx47.qxx.service.SysOrderService;
 import top.zhx47.qxx.service.UserService;
 
 import javax.servlet.http.Cookie;
@@ -50,9 +52,9 @@ public class CommonController implements CommonControllerApi {
     @Autowired
     private SysNoticeService sysNoticeService;
     @Autowired
-    private AlipayInfoPO alipayInfoPO;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysOrderService sysOrderService;
 
     @Override
     public R getVersion() {
@@ -146,21 +148,6 @@ public class CommonController implements CommonControllerApi {
 
     @Override
     public void notify(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
-        Map<String, String> param = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : entries) {
-            param.put(entry.getKey(), String.join("", entry.getValue()));
-        }
-        try {
-            boolean alipayRSACheckedV2 = AlipayUtils.signVerification(param, this.alipayInfoPO.getAlipayPublicKey());
-            if (!alipayRSACheckedV2) {
-                ServletUtils.renderText(response, "fail");
-            }
-            //  TODO 其他业务校验
-        } catch (AlipayApiException e) {
-            ServletUtils.renderText(response, "fail");
-        }
-        ServletUtils.renderText(response, "success");
+        this.sysOrderService.notify(request, response);
     }
 }

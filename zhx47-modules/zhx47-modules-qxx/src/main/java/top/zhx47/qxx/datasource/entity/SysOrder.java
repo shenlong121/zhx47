@@ -17,10 +17,25 @@ import lombok.NoArgsConstructor;
 public class SysOrder extends BaseEntity {
 
     /**
-     * 系统订单
+     * 商家订单号
      */
-    @TableId(value = "trade_no", type = IdType.AUTO)
-    private Long tradeNo;
+    @TableId(value = "out_trade_no", type = IdType.AUTO)
+    private Long outTradeNo;
+
+    /**
+     * 支付宝交易号，支付宝交易凭证号
+     */
+    private String tradeNo;
+
+    /**
+     * 订单金额。单位为人民币（元），精确到小数点后 2 位
+     */
+    private String totalAmount;
+
+    /**
+     * 实收金额
+     */
+    private String receiptAmount;
 
     /**
      * 是否付款 -- [0：未付款  1：已付款]

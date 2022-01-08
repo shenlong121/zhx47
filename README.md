@@ -46,4 +46,7 @@
 
 关于应用密钥和支付宝公钥可以参考[官方文档](https://opendocs.alipay.com/mini/miniu/keytool/create) 进行配置
 
+在支付成功后异步回调验证的时候，有个验证参数是 `seller_id`，在[账号中心](https://open.alipay.com/dev/workspace/account-center/main-account-manage) 获取
+
+![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220108222045.png)
 Enjoy it 😊

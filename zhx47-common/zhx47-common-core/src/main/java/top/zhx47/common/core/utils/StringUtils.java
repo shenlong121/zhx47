@@ -415,4 +415,18 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static <T> T cast(Object obj) {
         return (T) obj;
     }
+
+    /**
+     * 首字母大写
+     *
+     * @param str 需要处理的字符串
+     * @return 处理好的字符串
+     */
+    public static String firstUpperCase(String str) {
+        char[] ch = str.toCharArray();
+        if (ch[0] >= 'a' && ch[0] <= 'z') {
+            ch[0] = (char) (ch[0] - 32);
+        }
+        return new String(ch);
+    }
 }

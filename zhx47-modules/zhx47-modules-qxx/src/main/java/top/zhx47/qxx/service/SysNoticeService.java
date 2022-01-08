@@ -3,6 +3,9 @@ package top.zhx47.qxx.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.zhx47.qxx.datasource.entity.SysNotice;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author: 张许
  * @Description:

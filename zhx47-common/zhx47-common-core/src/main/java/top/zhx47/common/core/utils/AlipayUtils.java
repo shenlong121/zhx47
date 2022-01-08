@@ -4,12 +4,16 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
+import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -79,5 +83,21 @@ public class AlipayUtils {
         boolean alipayRSACheckedV2 = AlipaySignature.rsaCheckV2(param, alipayPublicKey, "UTF-8", "RSA2");
         LOGGER.info("支付宝验签结果：{}", alipayRSACheckedV2);
         return alipayRSACheckedV2;
+    }
+
+    public static String getSellerId(Long outTradeNo, String tradeNo) {
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        AlipayTradeQueryModel model = new AlipayTradeQueryModel();
+        model.setOutTradeNo(outTradeNo.toString());
+        model.setTradeNo(tradeNo);
+        request.setBizModel(model);
+        AlipayTradeQueryResponse response = null;
+        try {
+            response = alipayClient.execute(request);
+            LOGGER.info("订单详情：{}", response.getBody());
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

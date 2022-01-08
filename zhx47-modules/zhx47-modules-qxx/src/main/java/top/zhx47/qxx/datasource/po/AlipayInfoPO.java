@@ -29,4 +29,9 @@ public class AlipayInfoPO {
      * 支付宝公钥
      */
     private String alipayPublicKey;
+
+    /**
+     * 支付宝开放平台账号ID
+     */
+    private String sellerId;
 }
