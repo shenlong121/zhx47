@@ -44,7 +44,6 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
         Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
         Map<String, String> param = new HashMap<>();
         for (Map.Entry<String, String[]> entry : entries) {
-            LOGGER.info("支付宝参数：{} -> {}", entry.getKey(), String.join("", entry.getValue()));
             param.put(entry.getKey(), String.join("", entry.getValue()));
         }
         try {
