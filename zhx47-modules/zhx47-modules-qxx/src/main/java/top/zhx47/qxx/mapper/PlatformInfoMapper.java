@@ -25,4 +25,6 @@ public interface PlatformInfoMapper extends BaseMapper<PlatformInfo> {
     void updateQDDURL(String url);
 
     List<Map<String, String>> getAlipayInfo();
+
+    String getPriceKeyByValue(String totalAmount);
 }

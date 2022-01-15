@@ -3,6 +3,7 @@ package top.zhx47.qxx.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.zhx47.qxx.datasource.entity.PlatformInfo;
+import top.zhx47.qxx.datasource.enums.DaysEnum;
 import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.datasource.po.SystemInfoPO;
 import top.zhx47.qxx.mapper.PlatformInfoMapper;
@@ -89,5 +90,17 @@ public class PlatformInfoServiceImpl extends ServiceImpl<PlatformInfoMapper, Pla
             declaredField.set(alipayInfoPO, alipayInfoMap.get(this.humpToLine(declaredField.getName())));
         }
         return alipayInfoPO;
+    }
+
+    @Override
+    public Integer getVIPDaysByPrice(String totalAmount) {
+        String key = this.baseMapper.getPriceKeyByValue(totalAmount);
+        String type;
+        if (key.startsWith("f")) {
+            type = key.substring(4);
+        } else {
+            type = key.substring(5);
+        }
+        return DaysEnum.getDays(type);
     }
 }

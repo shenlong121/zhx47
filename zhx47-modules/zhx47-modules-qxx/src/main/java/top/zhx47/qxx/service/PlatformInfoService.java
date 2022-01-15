@@ -24,4 +24,6 @@ public interface PlatformInfoService extends IService<PlatformInfo> {
     void updateQDDURL(String url);
 
     AlipayInfoPO getAlipayInfoPO() throws IllegalAccessException;
+
+    Integer getVIPDaysByPrice(String totalAmount);
 }

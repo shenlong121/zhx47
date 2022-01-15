@@ -11,12 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 import top.zhx47.common.core.utils.AlipayUtils;
 import top.zhx47.common.core.utils.ServletUtils;
 import top.zhx47.qxx.datasource.entity.SysOrder;
+import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.mapper.SysOrderMapper;
+import top.zhx47.qxx.service.PlatformInfoService;
 import top.zhx47.qxx.service.SysOrderService;
+import top.zhx47.qxx.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +32,10 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
 
     @Autowired
     private AlipayInfoPO alipayInfoPO;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PlatformInfoService platformInfoService;
 
     @Override
     @Transactional
@@ -47,7 +55,9 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
             //  验签成功，校验其他的参数
             SysOrder sysOrder = this.checkAlipayResponse(param);
             if (sysOrder != null) {
+                // 更新订单状态，续费VIP
                 this.updateById(sysOrder);
+                this.renewMember(sysOrder.getCreateUser(), sysOrder.getTotalAmount());
                 ServletUtils.renderText(response, "success");
             } else {
                 ServletUtils.renderText(response, "fail");
@@ -55,6 +65,27 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
         } catch (AlipayApiException e) {
             ServletUtils.renderText(response, "fail");
         }
+    }
+
+    /**
+     * 给用户充值会员
+     *
+     * @param userId  用户ID
+     * @param totalAmount 付款（根据付款获得应充值的天数）
+     */
+    private void renewMember(Integer userId, String totalAmount) {
+        User user = this.userService.getById(userId);
+        Integer days = this.platformInfoService.getVIPDaysByPrice(totalAmount.substring(0, totalAmount.length() - 3));
+        LocalDate expireTime = user.getExpireTime();
+        if (expireTime.compareTo(LocalDate.now()) > 0) {
+            // 当前为会员
+            user.setExpireTime(expireTime.plusDays(days));
+        } else {
+            // 非会员
+            user.setExpireTime(LocalDate.now().plusDays(days));
+        }
+        this.userService.updateById(user);
+        LOGGER.info("用户: {} 续费会员 {} 天", userId, days);
     }
 
     /**
@@ -73,8 +104,10 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
             return null;
         }
         if (param.get("seller_id").equals(this.alipayInfoPO.getSellerId()) && param.get("app_id").equals(this.alipayInfoPO.getAppId())) {
+            Integer createUser = sysOrder.getCreateUser();
             BeanUtils.copyProperties(alipayResponse, sysOrder);
             sysOrder.setIsPay(true);
+            sysOrder.setCreateUser(createUser);
             return sysOrder;
         }
         return null;
