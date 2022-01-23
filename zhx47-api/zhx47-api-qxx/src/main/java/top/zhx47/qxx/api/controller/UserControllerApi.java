@@ -83,7 +83,7 @@ public interface UserControllerApi {
     R saveOrdersList(@RequestBody SaveOrdersDTO saveOrdersDTO) throws Exception;
 
     /**
-     * 获取用户的记账信息
+     * 获取用户的网赚记账信息
      */
     @RequestMapping(value = "/get_account_list", method = RequestMethod.POST)
     R getAccountList(@RequestBody RecordDTO recordDTO) throws Exception;
@@ -237,4 +237,28 @@ public interface UserControllerApi {
      */
     @RequestMapping(value = "/get_user_data", method = RequestMethod.POST)
     R getUserData(@RequestBody JSONObject jsonObject) throws Exception;
+
+    /**
+     * 兑换礼品
+     */
+    @RequestMapping(value = "/add_order", method = RequestMethod.POST)
+    R addOrder(@RequestBody JSONObject jsonObject);
+
+    /**
+     * 兑换礼品记录
+     */
+    @RequestMapping(value = "/get_order_list", method = RequestMethod.POST)
+    R getOrderList();
+
+    /**
+     * 设置收货地址
+     */
+    @RequestMapping(value = "/add_address", method = RequestMethod.POST)
+    R addAddress(@RequestBody JSONObject jsonObject);
+
+    /**
+     * 获取用户收货地址
+     */
+    @RequestMapping(value = "/get_address", method = RequestMethod.POST)
+    R getAddress();
 }

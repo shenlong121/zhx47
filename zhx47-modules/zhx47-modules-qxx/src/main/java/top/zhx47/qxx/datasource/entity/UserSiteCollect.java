@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UserSiteCollect extends BaseEntity {
-    @JsonIgnore
     @JSONField(serialize = false)
     private String userId;
     @JSONField(name = "siteId")

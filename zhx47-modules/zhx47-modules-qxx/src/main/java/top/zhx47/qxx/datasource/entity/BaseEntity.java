@@ -20,19 +20,15 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
     @JSONField(serialize = false)
     @TableField(value = "create_user", fill = FieldFill.INSERT)
     private Integer createUser;
-    @JsonIgnore
     @JSONField(serialize = false)
     @TableField(value = "update_user", fill = FieldFill.UPDATE)
     private Integer updateUser;
-    @JsonIgnore
     @JSONField(serialize = false)
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @JsonIgnore
     @JSONField(serialize = false)
     @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;

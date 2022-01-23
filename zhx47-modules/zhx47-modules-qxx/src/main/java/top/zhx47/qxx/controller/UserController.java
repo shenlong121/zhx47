@@ -46,6 +46,8 @@ public class UserController implements UserControllerApi {
     private PlatformInfoService platformInfoService;
     @Autowired
     private UserSiteBackupService userSiteBackupService;
+    @Autowired
+    private SysProductService sysProductService;
 
     @Override
     public R getUser() {
@@ -145,7 +147,7 @@ public class UserController implements UserControllerApi {
     @Override
     public R getProductList() {
         // TODO
-        return R.ok();
+        return R.ok().putBodyByMap("productList", this.sysProductService.list());
     }
 
     @Override
@@ -312,5 +314,30 @@ public class UserController implements UserControllerApi {
             return R.ok().putBodyByMap("data", data);
         }
         return R.error(500, "");
+    }
+
+    @Override
+    public R addOrder(@RequestBody JSONObject jsonObject) {
+        // TODO
+        return R.ok();
+    }
+
+    @Override
+    public R getOrderList() {
+        // TODO
+        return R.ok().putBodyByMap("orderList", new ArrayList<>());
+    }
+
+    @Override
+    public R addAddress(@RequestBody JSONObject jsonObject) {
+        // TODO
+        return R.ok();
+    }
+
+    @Override
+    public R getAddress() {
+        // TODO 其实只保留一个，不知道为什么要用List，奇怪的前端
+        // {name: "234", cell: "1234", address: "1234"}
+        return R.ok().putBodyByMap("addressList", new ArrayList<>());
     }
 }

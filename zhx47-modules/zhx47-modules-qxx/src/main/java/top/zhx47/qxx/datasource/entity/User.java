@@ -3,7 +3,6 @@ package top.zhx47.qxx.datasource.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,30 +21,67 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
+    /**
+     * 用户ID
+     */
     @TableId(value = "id", type = IdType.AUTO)
+    @JSONField(serialize = false)
     private Integer id;
-    @JSONField(name = "phone")
+
+    /**
+     * 手机号
+     */
     private String phone;
-    @JsonIgnore
+
+    /**
+     * 密码
+     */
     @JSONField(serialize = false)
     private String password;
-    @JSONField(name = "expireTime")
+
+    /**
+     * 会员过期时间
+     */
     private LocalDate expireTime;
-    @JSONField(name = "bonus")
+
+    /**
+     * 余额
+     */
     private Integer bonus;
-    @JSONField(name = "recordId")
+
+    /**
+     * 邀请码
+     */
     private String recordId;
-    @JSONField(name = "isWithdraw")
+
+    /**
+     * 完全不知道干嘛的
+     */
     private Integer isWithdraw;
-    @JSONField(name = "isAgent")
+
+    /**
+     * 是否是代理 0-不是 1-是
+     */
     private Integer isAgent;
-    @JSONField(name = "role")
+
+    /**
+     * 会员等级
+     */
     private String role;
-    @JSONField(name = "points")
+
+    /**
+     * 积分
+     */
     private Integer points;
-    @JSONField(name = "isCode")
+
+    /**
+     * 完全不知道干嘛的
+     */
     private Integer isCode;
-    @JsonIgnore
+
+    /**
+     * 邀请人ID
+     */
     @JSONField(serialize = false)
     private String parendId;
 
