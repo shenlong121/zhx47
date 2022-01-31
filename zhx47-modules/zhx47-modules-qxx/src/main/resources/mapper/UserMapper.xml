@@ -13,4 +13,12 @@
     <select id="getFriendListByPage" resultType="top.zhx47.qxx.datasource.entity.User">
         select * from user where parend_id = #{parentId} limit #{pageIndex}, #{pageNum}
     </select>
+
+    <select id="getAddress" resultType="top.zhx47.qxx.api.datasource.dto.ReceiveInfoDTO">
+        select name, cell, address from user where id = #{id}
+    </select>
+
+    <update id="addAddress">
+        update user set name = #{receiveInfo.name}, cell = #{receiveInfo.cell}, address = #{receiveInfo.address} where id = #{id}
+    </update>
 </mapper>

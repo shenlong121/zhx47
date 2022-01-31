@@ -3,6 +3,7 @@ package top.zhx47.qxx.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import top.zhx47.qxx.api.datasource.dto.ReceiveInfoDTO;
 import top.zhx47.qxx.datasource.entity.User;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface UserMapper extends BaseMapper<User> {
     Long countFriend(Integer parentId);
 
     List<User> getFriendListByPage(@Param("parentId") Integer parentId, @Param("pageIndex") int pageIndex, @Param("pageNum") Integer pageNum);
+
+    ReceiveInfoDTO getAddress(Integer id);
+
+    void addAddress(@Param("receiveInfo") ReceiveInfoDTO receiveInfoDTO, @Param("id") Integer id);
 }

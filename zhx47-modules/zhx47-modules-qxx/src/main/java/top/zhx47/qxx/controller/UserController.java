@@ -13,6 +13,7 @@ import top.zhx47.common.core.utils.IdUtils;
 import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.controller.UserControllerApi;
 import top.zhx47.qxx.api.datasource.dto.*;
+import top.zhx47.qxx.api.datasource.dto.ReceiveInfoDTO;
 import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.datasource.entity.UserSiteCollect;
@@ -329,15 +330,14 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public R addAddress(@RequestBody JSONObject jsonObject) {
-        // TODO
+    public R addAddress(@RequestBody ReceiveInfoDTO receiveInfoDTO) {
+        this.userService.addAddress(receiveInfoDTO);
         return R.ok();
     }
 
     @Override
     public R getAddress() {
-        // TODO 其实只保留一个，不知道为什么要用List，奇怪的前端
-        // {name: "234", cell: "1234", address: "1234"}
-        return R.ok().putBodyByMap("addressList", new ArrayList<>());
+        List<ReceiveInfoDTO> list = this.userService.getAddress();
+        return R.ok().putBodyByMap("addressList", list);
     }
 }

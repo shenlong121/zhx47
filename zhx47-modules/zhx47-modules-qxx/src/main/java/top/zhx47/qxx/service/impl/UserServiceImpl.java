@@ -1,6 +1,8 @@
 package top.zhx47.qxx.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import top.zhx47.common.core.exception.user.UserPasswordNotMatchException;
 import top.zhx47.common.core.utils.ShareCodeUtils;
 import top.zhx47.common.redis.service.RedisService;
 import top.zhx47.common.security.datasource.dto.UserDetailsDTO;
@@ -17,6 +18,7 @@ import top.zhx47.common.security.service.TokenService;
 import top.zhx47.common.security.utils.SecurityUtils;
 import top.zhx47.qxx.api.datasource.dto.PageDTO;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
+import top.zhx47.qxx.api.datasource.dto.ReceiveInfoDTO;
 import top.zhx47.qxx.datasource.entity.ActivationCode;
 import top.zhx47.qxx.datasource.entity.SysSite;
 import top.zhx47.qxx.datasource.entity.User;
@@ -30,6 +32,7 @@ import top.zhx47.qxx.service.UserSiteCollectService;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -172,6 +178,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User loadUserByPhone(@NotNull String phone) {
         return this.baseMapper.loadUserByPhone(phone);
+    }
+
+    @Override
+    public List<ReceiveInfoDTO> getAddress() {
+        Integer id = SecurityUtils.getId();
+        ReceiveInfoDTO receiveInfoDTO = this.baseMapper.getAddress(id);
+        LOGGER.info("获取用户：{} 收获信息：{}", id, receiveInfoDTO);
+        List<ReceiveInfoDTO> list = new ArrayList<>();
+        if (receiveInfoDTO != null) {
+            list.add(receiveInfoDTO);
+        }
+        return list;
+    }
+
+    @Override
+    public void addAddress(ReceiveInfoDTO receiveInfoDTO) {
+        this.baseMapper.addAddress(receiveInfoDTO, SecurityUtils.getId());
     }
 
     /**

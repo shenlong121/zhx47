@@ -3,6 +3,7 @@ package top.zhx47.qxx.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.zhx47.qxx.api.datasource.dto.PageDTO;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
+import top.zhx47.qxx.api.datasource.dto.ReceiveInfoDTO;
 import top.zhx47.qxx.datasource.entity.User;
 import top.zhx47.qxx.datasource.entity.UserSiteCollect;
 
@@ -35,4 +36,14 @@ public interface UserService extends IService<User> {
     boolean payCode(String code);
 
     User loadUserByPhone(String phone);
+
+    /**
+     * 获取当前用户的礼品收获信息
+     */
+    List<ReceiveInfoDTO> getAddress();
+
+    /**
+     * 更新用户收获信息
+     */
+    void addAddress(ReceiveInfoDTO receiveInfoDTO);
 }

@@ -254,7 +254,7 @@ public interface UserControllerApi {
      * 设置收货地址
      */
     @RequestMapping(value = "/add_address", method = RequestMethod.POST)
-    R addAddress(@RequestBody JSONObject jsonObject);
+    R addAddress(@RequestBody ReceiveInfoDTO receiveInfoDTO);
 
     /**
      * 获取用户收货地址

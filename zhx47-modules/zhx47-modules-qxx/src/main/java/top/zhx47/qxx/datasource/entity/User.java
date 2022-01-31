@@ -85,4 +85,22 @@ public class User extends BaseEntity {
     @JSONField(serialize = false)
     private String parendId;
 
+    /**
+     * 礼品收货人姓名
+     */
+    @JSONField(serialize = false)
+    private String name;
+
+    /**
+     * 礼品收货人联系方式
+     */
+    @JSONField(serialize = false)
+    private String cell;
+
+    /**
+     * 礼品收货人地址
+     */
+    @JSONField(serialize = false)
+    private String address;
+
 }
