@@ -2,6 +2,7 @@ package top.zhx47.qxx.service.impl;
 
 import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,16 +27,14 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> implements SysOrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SysOrderServiceImpl.class);
 
-    @Autowired
-    private AlipayInfoPO alipayInfoPO;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PlatformInfoService platformInfoService;
+    private final AlipayInfoPO alipayInfoPO;
+    private final UserService userService;
+    private final PlatformInfoService platformInfoService;
 
     @Override
     @Transactional

@@ -1,6 +1,7 @@
 package top.zhx47.qxx.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +43,18 @@ import java.util.stream.Collectors;
  * @Date: 2021/6/10 22:36
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserSiteCollectService userSiteCollectService;
-    @Autowired
-    private ActivationCodeService activationCodeService;
-    @Autowired
-    private SysSiteService sysSiteService;
-    @Autowired
-    private TokenService tokenService;
-    @Resource
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private RedisService redisService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserSiteCollectService userSiteCollectService;
+    private final ActivationCodeService activationCodeService;
+    private final SysSiteService sysSiteService;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
+    private final RedisService redisService;
 
     @Override
     public Boolean registerUser(UserDTO registerOrResetDTO) {

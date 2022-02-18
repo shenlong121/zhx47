@@ -1,6 +1,7 @@
 package top.zhx47.qxx.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,22 +34,17 @@ import java.util.stream.Collectors;
  * @Date: 2021/8/16 23:11
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController implements UserControllerApi {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SysSiteService sysSiteService;
-    @Autowired
-    private UserSiteCollectService userSiteCollectService;
-    @Autowired
-    private UserSiteSortService userSiteSortService;
-    @Autowired
-    private PlatformInfoService platformInfoService;
-    @Autowired
-    private UserSiteBackupService userSiteBackupService;
-    @Autowired
-    private SysProductService sysProductService;
+
+    private final UserService userService;
+    private final SysSiteService sysSiteService;
+    private final UserSiteCollectService userSiteCollectService;
+    private final UserSiteSortService userSiteSortService;
+    private final PlatformInfoService platformInfoService;
+    private final UserSiteBackupService userSiteBackupService;
+    private final SysProductService sysProductService;
 
     @Override
     public R getUser() {

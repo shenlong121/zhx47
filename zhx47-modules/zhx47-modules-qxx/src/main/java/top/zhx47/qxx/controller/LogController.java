@@ -14,6 +14,7 @@ import top.zhx47.qxx.api.controller.LogControllerApi;
 @RestController
 @RequestMapping("/log")
 public class LogController implements LogControllerApi {
+
     @Override
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public R add() {

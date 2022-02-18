@@ -2,6 +2,7 @@ package top.zhx47.qxx.job;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -171,11 +172,14 @@ public class AutoUpdate {
                 .method(Connection.Method.POST)
                 .execute();
         SysConfig sysConfig = JSONObject.parseObject(execute.body()).getJSONObject("body").getObject("config", SysConfig.class);
-        sysConfig.setId(1L);
-        sysConfig.setDomain("http://127.0.0.1");
-        sysConfig.setJiguang("Basic MjFkNTY3Y2U4NTFmNDUxMDIwNzRmZDRhOjQwOWMyN2RkMzQ1ZWQ3OGMzNmRjYjRmZQ==");
-        sysConfig.setVersionApk("2.2.40");
-        sysConfigService.saveOrUpdate(sysConfig);
+//        sysConfig.setId(1L);
+//        sysConfig.setDomain("http://127.0.0.1");
+//        sysConfig.setJiguang("Basic MjFkNTY3Y2U4NTFmNDUxMDIwNzRmZDRhOjQwOWMyN2RkMzQ1ZWQ3OGMzNmRjYjRmZQ==");
+//        sysConfig.setVersionApk("2.2.40");
+        LambdaUpdateWrapper<SysConfig> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(SysConfig::getVersion, sysConfig.getVersion())
+                        .eq(SysConfig::getId, 1);
+        sysConfigService.update(updateWrapper);
     }
 
     /**

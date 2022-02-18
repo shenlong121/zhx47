@@ -1,5 +1,6 @@
 package top.zhx47.qxx.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,15 +23,13 @@ import java.math.BigDecimal;
  * @Date: 2021/12/30 20:46
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/fund")
 public class FundController implements FundControllerApi {
 
-    @Autowired
-    private SysOrderService sysOrderService;
-    @Autowired
-    private PlatformInfoService platformInfoService;
-    @Autowired
-    private SystemInfoPO systemInfoPO;
+    private final SysOrderService sysOrderService;
+    private final PlatformInfoService platformInfoService;
+    private final SystemInfoPO systemInfoPO;
 
     @Override
     public void alipay(@RequestParam("setType") String setType, @RequestParam("token") String token,
