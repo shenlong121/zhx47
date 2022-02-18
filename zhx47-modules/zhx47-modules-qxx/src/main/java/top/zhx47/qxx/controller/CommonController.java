@@ -1,28 +1,22 @@
 package top.zhx47.qxx.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alipay.api.AlipayApiException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zhx47.common.core.constant.BusinessConstants;
 import top.zhx47.common.core.constant.Constants;
-import top.zhx47.common.core.utils.AlipayUtils;
-import top.zhx47.common.core.utils.ServletUtils;
 import top.zhx47.common.core.web.R;
 import top.zhx47.qxx.api.controller.CommonControllerApi;
 import top.zhx47.qxx.api.datasource.dto.UserDTO;
 import top.zhx47.qxx.api.datasource.dto.VerificationCodeDTO;
 import top.zhx47.qxx.datasource.entity.SysNotice;
-import top.zhx47.qxx.datasource.entity.SysOrder;
 import top.zhx47.qxx.datasource.entity.User;
-import top.zhx47.qxx.datasource.po.AlipayInfoPO;
 import top.zhx47.qxx.service.SysConfigService;
 import top.zhx47.qxx.service.SysNoticeService;
 import top.zhx47.qxx.service.SysOrderService;
@@ -33,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author: 张许

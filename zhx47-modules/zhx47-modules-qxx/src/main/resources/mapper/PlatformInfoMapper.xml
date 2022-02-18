@@ -38,6 +38,10 @@
     </select>
 
     <select id="getPriceKeyByValue" resultType="java.lang.String">
-        select p.`key` from platform_info p where p.value = '25' and p.type = 'price' limit 1
+        select p.`key`
+        from platform_info p
+        where p.value = '25'
+          and p.type = 'price'
+        limit 1
     </select>
 </mapper>

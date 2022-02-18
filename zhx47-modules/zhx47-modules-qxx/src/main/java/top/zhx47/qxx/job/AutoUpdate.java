@@ -178,7 +178,7 @@ public class AutoUpdate {
 //        sysConfig.setVersionApk("2.2.40");
         LambdaUpdateWrapper<SysConfig> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysConfig::getVersion, sysConfig.getVersion())
-                        .eq(SysConfig::getId, 1);
+                .eq(SysConfig::getId, 1);
         sysConfigService.update(updateWrapper);
     }
 

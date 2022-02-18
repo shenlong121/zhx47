@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.zhx47.common.core.utils.AlipayUtils;
@@ -68,7 +67,7 @@ public class SysOrderServiceImpl extends ServiceImpl<SysOrderMapper, SysOrder> i
     /**
      * 给用户充值会员
      *
-     * @param userId  用户ID
+     * @param userId      用户ID
      * @param totalAmount 付款（根据付款获得应充值的天数）
      */
     private void renewMember(Integer userId, String totalAmount) {

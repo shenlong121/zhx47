@@ -19,6 +19,7 @@
     </select>
 
     <update id="addAddress">
-        update user set name = #{receiveInfo.name}, cell = #{receiveInfo.cell}, address = #{receiveInfo.address} where id = #{id}
+        update user set name = #{receiveInfo.name}, cell = #{receiveInfo.cell}, address = #{receiveInfo.address} where
+        id = #{id}
     </update>
 </mapper>

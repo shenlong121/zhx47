@@ -13,7 +13,6 @@ import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**
