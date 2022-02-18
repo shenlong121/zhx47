@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhx47.admin.mapper.PlatformInfoMapper">
+    <update id="updateQDDCookie">
+        update platform_info
+        set `value` = #{token}
+        where `key` = 'qdd_cookie'
+    </update>
+
+    <select id="getBonusInfo" resultType="java.util.Map">
+        select `key`, CONVERT(value USING utf8) as value
+        from qxx.platform_info
+        where type = 'commission'
+    </select>
+
+    <select id="getSets" resultType="java.util.Map">
+        select `key`, CONVERT(value USING utf8) as value
+        from qxx.platform_info
+        where type = 'price'
+    </select>
+
+    <select id="getSystemInfo" resultType="java.util.Map">
+        select p.`key`, CONVERT(p.value USING utf8) as value
+        from qxx.platform_info p
+        where p.type = 'system';
+    </select>
+
+    <update id="updateQDDURL">
+        update platform_info
+        set `value` = #{url}
+        where `key` = 'qdd_url'
+    </update>
+
+    <select id="getAlipayInfo" resultType="java.util.Map">
+        select p.`key`, CONVERT(p.value USING utf8) as value
+        from qxx.platform_info p
+        where p.type = 'alipay';
+    </select>
+
+    <select id="getPriceKeyByValue" resultType="java.lang.String">
+        select p.`key`
+        from platform_info p
+        where p.value = '25'
+          and p.type = 'price'
+        limit 1
+    </select>
+</mapper>

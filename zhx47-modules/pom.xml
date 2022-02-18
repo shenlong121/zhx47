@@ -15,13 +15,50 @@
         zhx47-modules业务模块
     </description>
     <modules>
-        <module>zhx47-modules-qxx</module>
+        <module>zhx47-module-qxx</module>
+        <module>zhx47-module-admin</module>
     </modules>
+
     <dependencies>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.zhx47</groupId>
+            <artifactId>zhx47-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.zhx47</groupId>
+            <artifactId>zhx47-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.zhx47</groupId>
+            <artifactId>zhx47-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

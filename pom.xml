@@ -44,7 +44,7 @@
     <modules>
         <!--基础模块-->
         <module>zhx47-common</module>
-        <module>zhx47-api</module>
+        <module>zhx47-apis</module>
         <module>zhx47-modules</module>
     </modules>
 
@@ -153,24 +153,21 @@
                 <version>${zhx47.version}</version>
             </dependency>
 
-            <!-- 日志记录 -->
             <dependency>
                 <groupId>top.zhx47</groupId>
                 <artifactId>zhx47-api-qxx</artifactId>
                 <version>${zhx47.version}</version>
             </dependency>
 
-            <!-- 缓存服务 -->
+            <dependency>
+                <groupId>top.zhx47</groupId>
+                <artifactId>zhx47-api-admin</artifactId>
+                <version>${zhx47.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>top.zhx47</groupId>
                 <artifactId>zhx47-common-redis</artifactId>
-                <version>${zhx47.version}</version>
-            </dependency>
-
-            <!-- 系统接口 -->
-            <dependency>
-                <groupId>top.zhx47</groupId>
-                <artifactId>zhx47-api-qxx</artifactId>
                 <version>${zhx47.version}</version>
             </dependency>
         </dependencies>

@@ -1,0 +1,21 @@
+server:
+  port: 9201
+  servlet:
+    context-path: /qxx
+    session:
+      timeout: 84000
+
+spring:
+  application:
+    name: zhx47-qxx
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+#    active: @spring.profiles.actvie@
+    active: dev
+
+mybatis-plus:
+  mapper-locations: classpath:./mapper/*.xml
+
+qdd:
+  getUrl: http://i.bokee.com/v1.php/blog/view/uname/zl123456987/bid/508008099

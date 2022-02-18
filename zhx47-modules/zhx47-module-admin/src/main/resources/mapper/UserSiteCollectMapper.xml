@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhx47.admin.mapper.UserSiteCollectMapper">
+    <select id="queryByUserId" resultType="top.zhx47.admin.datasource.entity.UserSiteCollect"
+            parameterType="java.lang.String">
+        SELECT *
+        FROM `user_site_collect`
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="queryByGroupAndUserId" resultType="top.zhx47.admin.datasource.entity.UserSiteCollect">
+        SELECT *
+        FROM `user_site_collect`
+        WHERE user_id = #{userId}
+        and `group` = #{siteId}
+        order by `index`
+    </select>
+
+    <delete id="deleteUserSiteCollect">
+        delete from `user_site_collect` where user_id = #{userId} and site_id = #{siteId}
+    </delete>
+
+    <update id="updateUserSiteCollect">
+        update `user_site_collect` set site_name = #{siteName} where collect_id = #{collectId}
+    </update>
+</mapper>

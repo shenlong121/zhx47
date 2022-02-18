@@ -1,0 +1,18 @@
+server:
+  port: 9202
+  servlet:
+    context-path: /admin
+    session:
+      timeout: 84000
+
+spring:
+  application:
+    name: zhx47-admin
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+#    active: @spring.profiles.actvie@
+    active: dev
+
+mybatis-plus:
+  mapper-locations: classpath:./mapper/*.xml
