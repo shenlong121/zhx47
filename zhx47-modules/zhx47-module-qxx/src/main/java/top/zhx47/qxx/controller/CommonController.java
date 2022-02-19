@@ -63,13 +63,18 @@ public class CommonController implements CommonControllerApi {
             return R.error(BusinessConstants.INVALIDDATA, "非法数据");
         }
         User user = userService.loadUserByPhone(verificationCodeDTO.getPhone());
-        if (user == null) {
-            return R.ok(200, "验证码获取成功");
-        }
         if ("register".equals(verificationCodeDTO.getOrigin())) {
-            return R.error(BusinessConstants.REGISTERED, "手机号已注册");
+            if (user == null) {
+                return R.ok(200, "验证码获取成功");
+            } else {
+                return R.error(BusinessConstants.REGISTERED, "手机号已注册");
+            }
         } else if ("reset".equals(verificationCodeDTO.getOrigin())) {
-            return R.error(BusinessConstants.UNREGISTERED, "请输入正确的手机号");
+            if (passwordEncoder.matches("123456789", user.getPassword())) {
+                return R.ok(200, "验证码获取成功");
+            } else {
+                return R.error(BusinessConstants.UNREGISTERED, "请输入正确的手机号");
+            }
         }
         return R.error(BusinessConstants.INVALIDDATA, "非法请求");
     }
@@ -114,6 +119,11 @@ public class CommonController implements CommonControllerApi {
 
     @Override
     public R login(@RequestBody UserDTO userDTO, HttpServletResponse response) {
+        // 生成令牌
+        String token = userService.login(userDTO.getPhone(), userDTO.getPassword());
+        if (StringUtils.isEmpty(token)) {
+            return R.ok("501", "手机号或者密码错误");
+        }
         // 之前没考虑，数据库中已经存在简单密码的情况，为了区分提示，所以校验放到后面了，简单密码需要去修改密码
         if (!userDTO.getPassword().matches(Constants.PASSWORD_REGEX)) {
             LOGGER.info("用户：{} 登录被拦截，密码过于简单", userDTO.getPhone());
@@ -122,12 +132,7 @@ public class CommonController implements CommonControllerApi {
             User user = this.userService.loadUserByPhone(userDTO.getPhone());
             user.setPassword(newPasswd);
             this.userService.updateById(user);
-            return R.ok("501", "密码太简单被拦截了，麻烦联系管理员申请修改密码");
-        }
-        // 生成令牌
-        String token = userService.login(userDTO.getPhone(), userDTO.getPassword());
-        if (StringUtils.isEmpty(token)) {
-            return R.ok("501", "手机号或者密码错误");
+            return R.ok("501", "密码太简单被拦截了，请自行修改密码");
         }
         response.setContentType("application/json;charset=utf-8");
         Cookie cookie = new Cookie("token", token);

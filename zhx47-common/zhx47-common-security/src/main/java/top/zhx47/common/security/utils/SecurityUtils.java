@@ -38,7 +38,13 @@ public class SecurityUtils {
      **/
     public static UserDetailsDTO getLoginUser() {
         try {
-            return (UserDetailsDTO) getAuthentication().getPrincipal();
+            Object principal = getAuthentication().getPrincipal();
+            if (principal instanceof String && "anonymousUser".equals(principal.toString())) {
+                UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
+                userDetailsDTO.setId(-1);
+                return userDetailsDTO;
+            }
+            return (UserDetailsDTO) principal;
         } catch (Exception e) {
             throw new CustomException("获取用户信息异常", HttpStatus.UNAUTHORIZED);
         }

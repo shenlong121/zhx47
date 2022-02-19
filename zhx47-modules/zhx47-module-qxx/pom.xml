@@ -31,12 +31,16 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>application-*.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>application.yml</include>
                     <include>application-${spring.profiles.actvie}.yml</include>
-                    <include>application-dev.yml</include>
-                    <include>mapper/*</include>
+                    <include>application.yml</include>
                 </includes>
             </resource>
         </resources>
