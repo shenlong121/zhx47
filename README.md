@@ -2,9 +2,11 @@
 
 抢夕夕后端，正在完成中...
 
-完成度20 ~ 30%，在做了，在做了。
+本项目大量配置文件来自 RuoYi-Cloud，感谢大佬
 
-![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220106164113.png)
+完成度 30~50%，在做了，在做了。
+
+![](https://cdn.jsdelivr.net/gh/zhx47/Pic-Go/20220106164113.png)
 
 [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=zhx47&bg_color=30,e96443,904e95&title_color=fff&text_color=fff)](https://github.com/anuraghazra/github-readme-stats)
 
@@ -16,6 +18,7 @@
 2. 数据库链接工具： IDEA / SQLyog/ Navicat 等等，任意挑选一个即可
 3. MySQL, Redis
 4. 一台用来部署的服务器
+5. 修改APP中的地址为你自己的前端页面
 
 ## 如何使用
 
@@ -39,15 +42,16 @@
 
 登录[支付宝开放平台](https://open.alipay.com/dev/workspace) 找到自己的应用，看一下有没有当面付的能力
 
-![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220106154803.png?token=AOTNIO3QHMWEU5DK2CIDTSLB22PPA)
+![](https://cdn.jsdelivr.net/gh/zhx47/Pic-Go/20220106154803.png)
 
 如果有的话，恭喜你，可以将相关配置信息录入数据库中，即可食用
 
-![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220106155329.png?token=AOTNIO72GRYHRNZVGAS7S3DB22QDM)
+![](https://cdn.jsdelivr.net/gh/zhx47/Pic-Go/20220106155329.png)
 
 关于应用密钥和支付宝公钥可以参考[官方文档](https://opendocs.alipay.com/mini/miniu/keytool/create) 进行配置
 
 在支付成功后异步回调验证的时候，有个验证参数是 `seller_id`，在[账号中心](https://open.alipay.com/dev/workspace/account-center/main-account-manage) 获取
 
-![](https://raw.githubusercontent.com/zhx47/Pic-Go/master/20220108222045.png)
+![](https://cdn.jsdelivr.net/gh/zhx47/Pic-Go/20220108222045.png)
+
 Enjoy it 😊
